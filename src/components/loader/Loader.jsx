@@ -1,7 +1,13 @@
 import React from 'react';
 import './Loader.css';
 
-export default function loader({ fullscreen }) {
+/**
+ * @typedef {object} Props
+ * @prop {boolean} fullscreen 
+ *  
+ * @param {Props} props 
+ */
+export default function Loader({ fullscreen }) {
 
     function spinner() {
         return (
