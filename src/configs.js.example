@@ -6,7 +6,7 @@ function appBaseUrl() {
       return 'http://url/api/';
 
     default:
-      return 'http://localhost/ugma-today/api/';
+      return 'http://localhost/ugma-today/api/public/api';
   }
 }
 
