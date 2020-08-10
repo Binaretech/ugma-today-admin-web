@@ -1,24 +1,27 @@
 import Axios from 'axios';
 import appBaseUrl from './configs';
 
-function request(endpoint, method, options) {
-  return new Promise((resolve, reject) => {
-    Axios.request({
-      url: endpoint,
-      method,
-      ...options,
-    })
-      .then((response) =>
-        resolve({
-          ...response.data,
-          status: response.status,
-        })
-      )
-      .catch((error) => reject(error));
-  });
-}
+let cancellation = undefined;
 
 export default class Xhr {
+  constructor(endpoint, method = 'GET', options = {}) {
+    this.endpoint = endpoint;
+    this.method = method;
+
+    this.options = {
+      cancelToken: new Axios.CancelToken((cancel) => (cancellation = cancel)),
+      ...options,
+    };
+
+    Xhr.initConfigs();
+
+    this.xhr = new Axios({
+      url: this.endpoint,
+      method: this.method,
+      ...this.options,
+    });
+  }
+
   static initConfigs() {
     Axios.defaults.baseURL = appBaseUrl();
     Axios.defaults.headers.common['Authorization'] = localStorage.getItem(
@@ -26,19 +29,20 @@ export default class Xhr {
     );
   }
 
-  static get(endpoint, options = {}) {
-    return request(endpoint, 'GET', options);
+  send() {
+    return new Promise((resolve, reject) => {
+      this.xhr
+        .then((response) =>
+          resolve({
+            ...response.data,
+            status: response.status,
+          })
+        )
+        .catch((error) => reject(error));
+    });
   }
 
-  static post(endpoint, options = {}) {
-    return request(endpoint, 'POST', options);
-  }
-
-  static put(endpoint, options = {}) {
-    return request(endpoint, 'PUT', options);
-  }
-
-  static delete(endpoint, options = {}) {
-    return request(endpoint, 'DELETE', options);
+  abort() {
+    cancellation();
   }
 }
