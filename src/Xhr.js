@@ -13,8 +13,6 @@ export default class Xhr {
       ...options,
     };
 
-    Xhr.initConfigs();
-
     this.xhr = new Axios({
       url: this.endpoint,
       method: this.method,
@@ -44,5 +42,21 @@ export default class Xhr {
 
   abort() {
     cancellation();
+  }
+
+  static get(endpoint, options = {}) {
+    return new Xhr(endpoint, 'GET', options);
+  }
+
+  static post(endpoint, options = {}) {
+    return new Xhr(endpoint, 'POST', options);
+  }
+
+  static put(endpoint, options = {}) {
+    return new Xhr(endpoint, 'PUT', options);
+  }
+
+  static delete(endpoint, options = {}) {
+    return new Xhr(endpoint, 'DELETE', options);
   }
 }
