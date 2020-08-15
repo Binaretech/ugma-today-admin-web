@@ -1,0 +1,24 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.form {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.form > div {
+  margin: 5px;
+}
+
+.form > button {
+  width: 30%;
+  min-width: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}
