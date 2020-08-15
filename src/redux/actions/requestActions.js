@@ -1,4 +1,5 @@
 import { snackbarMessage } from './snackbarActions';
+import { trans } from '../../trans/trans';
 
 export const requestActions = {
   LOADING: 'LOADING',
@@ -11,18 +12,14 @@ export function request(xhr, action) {
     xhr
       .send()
       .then((response) => {
-        dispatch(
-          snackbarMessage(window.__trans('Components.snackbar.successMessage'))
-        );
+        dispatch(snackbarMessage(trans('Components.snackbar.successMessage')));
         return dispatch({
           type: action,
           payload: response,
         });
       })
       .catch((err) => {
-        dispatch(
-          snackbarMessage(window.__trans('Components.snackbar.errorMessage'))
-        );
+        dispatch(snackbarMessage(trans('Components.snackbar.errorMessage')));
         return dispatch(error(err));
       });
   };

@@ -9,6 +9,7 @@ import styles from './Login.module.css';
 import { request } from '../../redux/actions/requestActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../../redux/actions/sessionActions';
+import { trans } from '../../trans/trans';
 
 function Login() {
   const [username, setUsername] = useState('mari_conazo');
@@ -36,14 +37,14 @@ function Login() {
       {(loading && <Loader />) || (
         <form className={styles.form}>
           <TextField
-            label={window.__trans('words.user')}
+            label={trans('words.user')}
             name="username"
             variant="outlined"
             value={username}
             onChange={({ target: { value } }) => setUsername(value)}
           />
           <TextField
-            label={window.__trans('words.password')}
+            label={trans('words.password')}
             name="password"
             type="password"
             variant="outlined"
@@ -51,7 +52,7 @@ function Login() {
             onChange={({ target: { value } }) => setPassword(value)}
           />
           <Button variant="contained" onClick={() => onSubmit()}>
-            {window.__trans('Screens.Login.loginButton')}
+            {trans('Screens.Login.loginButton')}
           </Button>
         </form>
       )}
