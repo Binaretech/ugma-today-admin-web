@@ -5,18 +5,17 @@ import Loader from '../components/loader/Loader';
 import routes from './routeList';
 
 function Routes() {
-    return (
-        <Router>
-
-            <Switch>
-                <Suspense fallback={<Loader fullscreen />}>
-                    {
-                        routes.map((route) => <Route {...route} />)
-                    }
-                </Suspense>
-            </Switch>
-        </Router>
-    );
+  return (
+    <Router>
+      <Suspense fallback={<Loader fullscreen />}>
+        <Switch>
+          {routes.map((route) => (
+            <Route {...route} key={route.path} />
+          ))}
+        </Switch>
+      </Suspense>
+    </Router>
+  );
 }
 
 export default Routes;
