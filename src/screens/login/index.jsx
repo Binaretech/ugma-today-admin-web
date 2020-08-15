@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Loader from '../../components/loader/Loader';
+import TextInput from '../../components/textInput';
 
 import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
@@ -12,8 +12,11 @@ import { sessionActions } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
 
 function Login() {
-  const [username, setUsername] = useState('mari_conazo');
-  const [password, setPassword] = useState('secret');
+  const inputValues = {
+    username: '',
+    password: '',
+  };
+
   const loading = useSelector((state) => state.sessionReducer.loading);
   const dispatch = useDispatch();
 
@@ -24,34 +27,37 @@ function Login() {
 
     xhr = Xhr.post(apiEndpoints.login, {
       data: {
-        username,
-        password,
+        ...inputValues,
       },
     });
 
     dispatch(request(xhr, sessionActions.LOGIN));
   };
 
+  const onChange = ({ target: { name, value } }) => {
+    inputValues[name] = value;
+  };
+
   return (
     <div className={styles.container}>
       {(loading && <Loader />) || (
         <form className={styles.form}>
-          <TextField
+          <TextInput
             label={trans('words.user')}
             name="username"
             variant="outlined"
-            value={username}
-            onChange={({ target: { value } }) => setUsername(value)}
+            value={inputValues.username}
+            onChange={onChange}
           />
-          <TextField
+          <TextInput
             label={trans('words.password')}
             name="password"
             type="password"
             variant="outlined"
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
+            value={inputValues.password}
+            onChange={onChange}
           />
-          <Button variant="contained" onClick={() => onSubmit()}>
+          <Button variant="contained" onClick={onSubmit}>
             {trans('Screens.Login.loginButton')}
           </Button>
         </form>
