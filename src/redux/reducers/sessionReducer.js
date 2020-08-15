@@ -1,9 +1,7 @@
 import { sessionActions } from '../actions/sessionActions';
 import { requestActions } from '../actions/requestActions';
 
-const initialState = {
-  // loading: false,
-};
+const initialState = {};
 
 export default function sessionReducer(state = initialState, action) {
   switch (action.type) {

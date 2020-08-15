@@ -1,3 +1,5 @@
+import { snackbarMessage } from './snackbarActions';
+
 export const requestActions = {
   LOADING: 'LOADING',
   ERROR: 'ERROR',
@@ -9,9 +11,18 @@ export function request(xhr, action) {
     xhr
       .send()
       .then((response) => {
-        return dispatch({ type: action, payload: response });
+        dispatch(
+          snackbarMessage(window.__trans('Components.snackbar.successMessage'))
+        );
+        return dispatch({
+          type: action,
+          payload: response,
+        });
       })
       .catch((err) => {
+        dispatch(
+          snackbarMessage(window.__trans('Components.snackbar.errorMessage'))
+        );
         return dispatch(error(err));
       });
   };
