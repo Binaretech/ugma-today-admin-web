@@ -18,6 +18,8 @@ export default class Xhr {
       method: this.method,
       ...this.options,
     });
+
+    this.send = this.send.bind(this);
   }
 
   static initConfigs() {
