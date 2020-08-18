@@ -14,7 +14,6 @@ export function request(
   const { showSnackbarSuccess, showSnackbarError } = options;
 
   return (dispatch) => {
-    dispatch(loading());
     xhr
       .send()
       .then((response) => {

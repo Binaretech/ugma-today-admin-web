@@ -7,18 +7,18 @@ import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
 import { request } from '../../redux/actions/requestActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions } from '../../redux/actions/sessionActions';
+import { sessionActions, loading } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
 
 import styles from './Login.module.css';
 
 function Login() {
   const inputValues = {
-    username: '',
-    password: '',
+    username: 'mari_conazo',
+    password: 'secret',
   };
 
-  const loading = useSelector((state) => state.sessionReducer.loading);
+  const loader = useSelector((state) => state.sessionReducer.loading);
   const dispatch = useDispatch();
 
   let xhr = null;
@@ -32,6 +32,7 @@ function Login() {
       },
     });
 
+    dispatch(loading());
     dispatch(request(xhr, sessionActions.LOGIN, { showSnackbarError: true }));
   };
 
@@ -41,7 +42,7 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      {(loading && <Loader />) || (
+      {(loader && <Loader fullscreen />) || (
         <form className={styles.form}>
           <TextInput
             label={trans('words.user')}
