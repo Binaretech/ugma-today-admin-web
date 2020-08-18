@@ -22,6 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "postinstall": "cp src/config.js.example",
     "coverage": "react-scripts test --coverage",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
