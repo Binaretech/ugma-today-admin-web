@@ -7,7 +7,7 @@ export default function snackbarReducer(state = initialState, action) {
     case snackbarActions.MESSAGE:
       return {
         ...state,
-        message: action.message,
+        message: action?.payload?.message,
         open: true,
       };
 
@@ -16,6 +16,7 @@ export default function snackbarReducer(state = initialState, action) {
         ...state,
         open: false,
         message: '',
+        errors: {},
       };
     default:
       return state;

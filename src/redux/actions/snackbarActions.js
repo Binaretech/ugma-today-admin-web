@@ -3,10 +3,10 @@ export const snackbarActions = {
   MESSAGE: 'MESSAGE',
 };
 
-export function snackbarMessage(message) {
+export function snackbarMessage(payload) {
   return {
     type: snackbarActions.MESSAGE,
-    message,
+    payload,
   };
 }
 

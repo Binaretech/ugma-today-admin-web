@@ -5,11 +5,12 @@ import TextInput from '../../components/textInput';
 
 import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
-import styles from './Login.module.css';
 import { request } from '../../redux/actions/requestActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
+
+import styles from './Login.module.css';
 
 function Login() {
   const inputValues = {
@@ -31,7 +32,7 @@ function Login() {
       },
     });
 
-    dispatch(request(xhr, sessionActions.LOGIN));
+    dispatch(request(xhr, sessionActions.LOGIN, { showSnackbarError: true }));
   };
 
   const onChange = ({ target: { name, value } }) => {

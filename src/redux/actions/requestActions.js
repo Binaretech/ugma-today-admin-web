@@ -6,20 +6,37 @@ export const requestActions = {
   ERROR: 'ERROR',
 };
 
-export function request(xhr, action) {
+export function request(
+  xhr,
+  action,
+  options = { showSnackbarSuccess: false, showSnackbarError: false }
+) {
+  const { showSnackbarSuccess, showSnackbarError } = options;
+
   return (dispatch) => {
     dispatch(loading());
     xhr
       .send()
       .then((response) => {
-        dispatch(snackbarMessage(trans('Components.snackbar.successMessage')));
+        if (showSnackbarSuccess)
+          dispatch(
+            snackbarMessage(
+              response?.data?.message ||
+                trans('Components.snackbar.successMessage')
+            )
+          );
         return dispatch({
           type: action,
           payload: response,
         });
       })
       .catch((err) => {
-        dispatch(snackbarMessage(trans('Components.snackbar.errorMessage')));
+        if (showSnackbarError)
+          dispatch(
+            snackbarMessage(
+              err.response?.data || trans('Components.snackbar.errorMessage')
+            )
+          );
         return dispatch(error(err));
       });
   };
