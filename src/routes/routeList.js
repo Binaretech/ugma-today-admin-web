@@ -1,13 +1,13 @@
 import { lazy } from 'react';
 
-const Login = lazy(() => import('../screens/login'));
+const App = lazy(() => import('../screens/app/App'));
 const NotFound = lazy(() => import('../screens/notFound/NotFound'));
 
 export default [
   {
     path: '/',
     exact: true,
-    component: Login,
+    component: App,
   },
   {
     path: '*',
