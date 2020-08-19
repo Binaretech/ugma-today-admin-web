@@ -1,15 +1,30 @@
 import React from 'react';
-import Login from '../login';
+import Login from './Login';
+import { fireEvent, render } from '@testing-library/react';
+import store from '../../redux/store';
+import { Provider } from 'react-redux';
+import { trans } from '../../trans/trans';
+import renderer from 'react-test-renderer';
 
-import { render } from '@testing-library/react';
+describe('Login', () => {
+  test('should snapshot renders', () => {
+    const login = renderer.create(
+      <Provider store={store()}>
+        <Login />
+      </Provider>
+    );
 
-test('should render Login screen', () => {
-  const { container } = render(<Login />);
+    let tree = login.toJSON();
 
-  expect(container).toBeInTheDocument();
-});
+    expect(tree).toMatchSnapshot();
+  });
 
-test('should render Ingresar word in Login', () => {
-  const { getByText } = render(<Login />);
-  expect(getByText('Ingresar')).toBeInTheDocument();
+  test('should render Screens.Login.loginButton trans in Login', () => {
+    const { getByText } = render(
+      <Provider store={store()}>
+        <Login />
+      </Provider>
+    );
+    expect(getByText(trans('Screens.Login.loginButton'))).toBeInTheDocument();
+  });
 });

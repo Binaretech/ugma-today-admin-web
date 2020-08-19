@@ -1,8 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import App from './App';
+import { Provider } from 'react-redux';
+import store from '../../redux/store';
+import renderer from 'react-test-renderer';
 
-test('should renders App component', () => {
-  const { container } = render(<App />);
-  expect(container).toBeInTheDocument();
+describe('App', () => {
+  test('should renders App component', () => {
+    const app = renderer.create(
+      <Provider store={store()}>
+        <App />
+      </Provider>
+    );
+    expect(app.toJSON()).toMatchSnapshot();
+  });
 });
