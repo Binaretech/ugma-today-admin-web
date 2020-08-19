@@ -6,18 +6,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case requestActions.LOADING:
+    case requestActions.SET_ERRORS:
       return {
         ...state,
-        loading: true,
+        errors: action.payload?.response?.data?.errors || {},
       };
 
-    case requestActions.ERROR:
+    case requestActions.CLEAN_ERRORS:
       return {
         ...state,
-        message: action.payload?.response?.data?.message,
-        errors: action.payload?.response?.data?.errors || {},
-        loading: false,
+        message: '',
+        errors: {},
       };
 
     default:

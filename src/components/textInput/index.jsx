@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useSelector } from 'react-redux';
+import cleanErrors from '../../redux/actions/requestActions';
 
 export default function TextInput({
   name,
@@ -12,16 +13,20 @@ export default function TextInput({
 }) {
   const inputRef = useRef(null);
   const [message, setMessage] = useState('');
-  const errors = useSelector((state) => state.requestReducer.errors);
+  const errors = useSelector(
+    (state) => state.requestReducer.errors[name] || []
+  );
 
   useEffect(() => {
-    if (Object.keys(errors).length > 0) {
-      const errorMessages = errors[name];
-
-      setMessage(organizeMessage(errorMessages));
+    if (errors.length > 0) {
+      setMessage(organizeMessage(errors));
     }
 
-    if (Object.keys(errors).length === 0) setMessage('');
+    if (errors.length === 0) setMessage('');
+
+    return () => {
+      cleanErrors();
+    };
   }, [errors, name, message]);
 
   return (
@@ -41,7 +46,8 @@ export default function TextInput({
 
 function organizeMessage(errorMessages) {
   let completeMessage = '';
-  if (Array.isArray(errorMessages) && errorMessages.length > 0)
-    errorMessages.map((error) => (completeMessage = error + '\n'));
+  errorMessages.map(
+    (error) => (completeMessage = completeMessage + error + '\n')
+  );
   return completeMessage;
 }

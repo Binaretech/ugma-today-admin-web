@@ -16,7 +16,6 @@ export default function snackbarReducer(state = initialState, action) {
         ...state,
         open: false,
         message: '',
-        errors: {},
       };
     default:
       return state;

@@ -3,12 +3,14 @@ import { trans } from '../../trans/trans';
 
 export const requestActions = {
   LOADING: 'LOADING',
-  ERROR: 'ERROR',
+  SET_ERRORS: 'SET_ERRORS',
+  CLEAN_ERRORS: 'CLEAN_ERRORS',
 };
 
 export function request(
   xhr,
-  action,
+  actionSuccess,
+  actionError,
   options = { showSnackbarSuccess: false, showSnackbarError: false }
 ) {
   const { showSnackbarSuccess, showSnackbarError } = options;
@@ -25,7 +27,7 @@ export function request(
             )
           );
         return dispatch({
-          type: action,
+          type: actionSuccess,
           payload: response,
         });
       })
@@ -36,20 +38,24 @@ export function request(
               err.response?.data || trans('Components.snackbar.errorMessage')
             )
           );
-        return dispatch(error(err));
+        dispatch(setErrors(err));
+        return dispatch({
+          type: actionError,
+          payload: err,
+        });
       });
   };
 }
 
-export function loading() {
+export function setErrors(errors) {
   return {
-    type: requestActions.LOADING,
+    type: requestActions.SET_ERRORS,
+    payload: errors,
   };
 }
 
-export function error(error) {
+export default function cleanErrors() {
   return {
-    type: requestActions.ERROR,
-    payload: error,
+    type: requestActions.CLEAN_ERRORS,
   };
 }

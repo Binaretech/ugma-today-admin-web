@@ -33,7 +33,11 @@ function Login() {
     });
 
     dispatch(loading());
-    dispatch(request(xhr, sessionActions.LOGIN, { showSnackbarError: true }));
+    dispatch(
+      request(xhr, sessionActions.LOGIN, sessionActions.ERROR_LOGIN, {
+        showSnackbarError: true,
+      })
+    );
   };
 
   const onChange = ({ target: { name, value } }) => {
