@@ -13,7 +13,7 @@ test('should returns routes array', () => {
   expect(routeList).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        path: '/',
+        path: '*',
       }),
     ])
   );
