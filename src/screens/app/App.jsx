@@ -3,7 +3,7 @@ import './App.css';
 import Routes from '../../routes/routes';
 import setLanguage from '../../trans/trans';
 import Xhr from '../../Xhr';
-import Snackbar from '../../components/snackbar';
+import Snackbar from '../../components/snackbar/Snackbar';
 
 Xhr.initConfigs();
 
