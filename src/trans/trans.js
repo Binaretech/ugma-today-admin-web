@@ -8,7 +8,7 @@ const availableLanguages = {
 
 let language = '';
 
-function trans(translation) {
+export function trans(translation) {
   let path = translation.split('.');
 
   let message = availableLanguages[language];
@@ -25,5 +25,3 @@ function trans(translation) {
 export default function setLanguage(lang) {
   language = lang || 'es';
 }
-
-window.__trans = trans;

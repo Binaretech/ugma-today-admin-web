@@ -3,7 +3,7 @@ const appEnv = process.env.REACT_APP_ENV;
 function appBaseUrl() {
   switch (appEnv) {
     case 'production':
-      return 'http://url/api/';
+      return 'https://api-ugma-today.herokuapp.com/api';
 
     default:
       return 'http://localhost/ugma-today/api/public/api';

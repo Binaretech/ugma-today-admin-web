@@ -3,6 +3,7 @@ import './App.css';
 import Routes from '../../routes/routes';
 import setLanguage from '../../trans/trans';
 import Xhr from '../../Xhr';
+import Snackbar from '../../components/snackbar/Snackbar';
 
 Xhr.initConfigs();
 
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="App">
       <Routes />
+      <Snackbar />
     </div>
   );
 }
