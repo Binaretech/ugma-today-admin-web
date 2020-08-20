@@ -4,6 +4,7 @@ export default {
   //    B
 
   //    C
+  connectionError: 'Error de conexión',
 
   //    D
 

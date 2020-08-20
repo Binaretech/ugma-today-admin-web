@@ -36,6 +36,7 @@ function Login() {
     dispatch(
       request(xhr, sessionActions.LOGIN, sessionActions.ERROR_LOGIN, {
         showSnackbarError: true,
+        showSnackbarSuccess: true,
       })
     );
   };
