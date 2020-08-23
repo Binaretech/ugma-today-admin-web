@@ -6,7 +6,7 @@ const availableLanguages = {
   en,
 };
 
-let language = '';
+let language = 'es';
 
 export function trans(translation) {
   let path = translation.split('.');
@@ -14,7 +14,7 @@ export function trans(translation) {
   let message = availableLanguages[language];
 
   // eslint-disable-next-line
-  path.map((key) => {
+  path.forEach((key) => {
     message = message[key];
   });
 
@@ -23,5 +23,5 @@ export function trans(translation) {
 }
 
 export default function setLanguage(lang) {
-  language = lang || 'es';
+  language = lang;
 }

@@ -13,7 +13,7 @@ export default class Xhr {
       ...options,
     };
 
-    this.xhr = new Axios({
+    this.xhr = Axios.request({
       url: this.endpoint,
       method: this.method,
       ...this.options,

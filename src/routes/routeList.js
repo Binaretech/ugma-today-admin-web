@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-const Login = lazy(() => import('../screens/login'));
+const Login = lazy(() => import('../screens/login/Login'));
 const NotFound = lazy(() => import('../screens/notFound/NotFound'));
 
 export default [

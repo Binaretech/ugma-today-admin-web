@@ -35,7 +35,8 @@ export function request(
         if (showSnackbarError)
           dispatch(
             snackbarMessage(
-              err.response?.data || trans('Components.snackbar.errorMessage')
+              err?.response?.data?.message ||
+                trans('Components.snackbar.errorMessage')
             )
           );
         dispatch(setErrors(err));
