@@ -5,9 +5,9 @@ import cleanErrors from '../../redux/actions/requestActions';
 
 export default function TextInput({
   name,
-  label,
+  label = '',
   value,
-  variant,
+  variant = 'outlined',
   onChange,
   type = 'text',
 }) {
