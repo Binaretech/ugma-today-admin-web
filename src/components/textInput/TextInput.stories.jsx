@@ -14,4 +14,4 @@ export default {
   component: TextInput,
 };
 
-export const NormalTexInput = () => <TextInputWithProvider />;
+export const NormalTexTInput = () => <TextInputWithProvider />;
