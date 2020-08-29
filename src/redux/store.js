@@ -6,6 +6,9 @@ import reducers from './reducers';
 
 const composeEnhacers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 
+/**
+ * @returns {import('redux').Store}
+ */
 export default function configureStore() {
   const middlewares = [
     thunk,
@@ -18,6 +21,6 @@ export default function configureStore() {
     reducers,
     {},
     (composeEnhacers && composeEnhacers(applyMiddleware(...middlewares))) ||
-      applyMiddleware(...middlewares)
+    applyMiddleware(...middlewares)
   );
 }
