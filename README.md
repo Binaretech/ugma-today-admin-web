@@ -9,3 +9,15 @@ En este repositorio se encuentra al aplicacion web de administracion hecha con R
 El proyecto se encuentra en una temprana etapa de desarrollo
 
 ## Las contribuciones son bienvenidas
+
+
+## Desarrollo
+```bash
+$ npm install
+```
+
+O usando yarn
+
+```bash
+$ yarn
+```
