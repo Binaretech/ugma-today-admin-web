@@ -1,3 +1,4 @@
+![test.js CI](https://github.com/Binaretech/ugma-today-admin-web/workflows/test.js%20CI/badge.svg)
 # Ugma Today Admin Web
 
 UgmaToday es una aplicación satiríca inspirada en DolarToday que muestra los diferentes precios por unidad de credito de la Universidad Nororiental Privada Gran Mariscal De Ayacucho
