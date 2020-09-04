@@ -5,5 +5,6 @@ export default {
   snackbar: {
     successMessage: 'Acción ejecutada con éxito',
     errorMessage: 'Ocurrió un error. Intente nuevamente',
+    updateMessage: 'Hay una actualización disponible, por favor refresque.',
   },
 };
