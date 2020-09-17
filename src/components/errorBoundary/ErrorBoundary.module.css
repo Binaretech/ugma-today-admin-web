@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    flex-direction: column;
+}
+
+.svg_container {
+    padding: 1em 0;
+}

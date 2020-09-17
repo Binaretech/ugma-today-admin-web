@@ -34,7 +34,7 @@ export default {
   //    Q
 
   //    R
-
+  reload: 'Recargar',
   //    S
 
   //    T

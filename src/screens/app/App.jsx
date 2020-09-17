@@ -4,6 +4,7 @@ import Routes from '../../routes/routes';
 import setLanguage from '../../trans/trans';
 import Xhr from '../../Xhr';
 import Snackbar from '../../components/snackbar/Snackbar';
+import ErrorBoundary from '../../components/errorBoundary/ErrorBoundary';
 
 Xhr.initConfigs();
 
@@ -12,8 +13,10 @@ function App() {
 
   return (
     <div className="App">
-      <Routes />
-      <Snackbar />
+      <ErrorBoundary>
+        <Routes />
+        <Snackbar />
+      </ErrorBoundary>
     </div>
   );
 }
