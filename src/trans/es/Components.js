@@ -7,4 +7,12 @@ export default {
     errorMessage: 'Ocurrió un error. Intente nuevamente',
     updateMessage: 'Hay una actualización disponible, por favor refresque.',
   },
+  drawer: {
+    listPrices: 'Ver precios',
+    createPrice: 'Registrar nuevo precio',
+  },
+  layout: {
+    title: 'Ugma Today Admin'
+  }
 };
+
