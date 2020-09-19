@@ -2,25 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './screens/app/App';
 import * as serviceWorker from './serviceWorker';
-import {
-    Provider
-} from 'react-redux';
+import { Provider } from 'react-redux';
 import createStore from './redux/store';
-import {
-    snackbarMessage
-} from './redux/actions/snackbarActions';
-import {
-    trans
-} from './trans/trans';
+import { snackbarMessage } from './redux/actions/snackbarActions';
+import { trans } from './trans/trans';
 
 const store = createStore();
 
 ReactDOM.render(
     <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
     document.getElementById('root')
 );
 
