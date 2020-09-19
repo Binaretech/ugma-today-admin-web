@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactComponent as Ups } from '../../assets/svg/gunter-ups.svg';
-import { trans } from '../..//trans/trans';
+import { trans } from '../../trans/trans';
 import styles from './ErrorBoundary.module.css';
 import Button from '@material-ui/core/Button';
 
