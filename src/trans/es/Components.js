@@ -11,7 +11,7 @@ export default {
     listPrices: 'Ver precios',
     createPrice: 'Registrar nuevo precio',
   },
-  layout: {
+  scaffold: {
     title: 'Ugma Today Admin'
   }
 };

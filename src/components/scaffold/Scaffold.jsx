@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Layout(props) {
+export default function Scaffold(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -110,7 +110,7 @@ export default function Layout(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        {trans('Components.layout.title')}
+                        {trans('Components.scaffold.title')}
                     </Typography>
                 </Toolbar>
             </AppBar>

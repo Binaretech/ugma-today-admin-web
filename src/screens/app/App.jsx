@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../components/layout/Layout';
+import Scaffold from '../../components/scaffold/Scaffold';
 import Routes from '../../routes/routes';
 import ErrorBoundary from '../../components/errorBoundary/ErrorBoundary';
 import Snackbar from '../../components/snackbar/Snackbar';
@@ -20,9 +20,9 @@ function App() {
       <ErrorBoundary>
         {
           userId ?
-            <Layout>
+            <Scaffold>
               <Routes />
-            </Layout>
+            </Scaffold>
             :
             <Routes />
         }

@@ -1,40 +1,40 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Layout from './Layout';
+import Scaffold from './Scaffold';
 import { render } from '../../utils/test-utils';
 import { trans } from '../../trans/trans';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-test('should renders Layout component', () => {
-    const layout = renderer.create(
+test('should renders Scaffold component', () => {
+    const scaffold = renderer.create(
         <Router>
-            <Layout>
+            <Scaffold>
                 <p>Test</p>
-            </Layout>
+            </Scaffold>
         </Router>
     );
 
-    expect(layout.toJSON()).toMatchSnapshot();
+    expect(scaffold.toJSON()).toMatchSnapshot();
 });
 
 test('should find title in appbar', async () => {
     const { getByText } = render(
         <Router>
-            <Layout>
+            <Scaffold>
                 <p>Test</p>
-            </Layout>
+            </Scaffold>
         </Router>
     );
 
-    expect(getByText(trans('Components.layout.title'))).toBeInTheDocument();
+    expect(getByText(trans('Components.scaffold.title'))).toBeInTheDocument();
 });
 
 test('should find child', async () => {
     const { getByText } = render(
         <Router>
-            <Layout>
+            <Scaffold>
                 <p>Test</p>
-            </Layout>
+            </Scaffold>
         </Router>
     );
 
