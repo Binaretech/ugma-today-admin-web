@@ -1,15 +1,13 @@
 import Axios from 'axios';
 import appBaseUrl from './configs';
 
-let cancellation = undefined;
-
 export default class Xhr {
   constructor(endpoint, method = 'GET', options = {}) {
     this.endpoint = endpoint;
     this.method = method;
 
     this.options = {
-      cancelToken: new Axios.CancelToken((cancel) => (cancellation = cancel)),
+      cancelToken: new Axios.CancelToken((cancel) => (this.abort = cancel)),
       ...options,
     };
 
@@ -25,8 +23,8 @@ export default class Xhr {
   static initConfigs() {
     Axios.defaults.baseURL = appBaseUrl();
     Axios.defaults.headers.common['Authorization'] = localStorage.getItem(
-      'token'
-    );
+      'utd'
+    )?.token;
   }
 
   send() {
@@ -40,10 +38,6 @@ export default class Xhr {
         )
         .catch((error) => reject(error));
     });
-  }
-
-  abort() {
-    cancellation();
   }
 
   static get(endpoint, options = {}) {

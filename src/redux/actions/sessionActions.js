@@ -16,3 +16,10 @@ export function error(error) {
     payload: error,
   };
 }
+
+export function setUserData(payload) {
+  return {
+    type: sessionActions.LOGIN,
+    payload,
+  };
+}

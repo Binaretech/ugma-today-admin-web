@@ -4,20 +4,23 @@ import Loader from '../components/loader/Loader';
 import { useSelector } from 'react-redux';
 
 import routes from './routeList';
+import Root from '../components/root/Root';
 
 function Routes() {
-  const userId = useSelector((state) => state.sessionReduer?.user?.id);
+  const userId = useSelector((state) => state.sessionReducer?.id);
 
   return (
     <Router>
       <Suspense fallback={<Loader fullscreen />}>
-        <Switch>
-          {
-            routes(userId).map((route) => (
-              <Route {...route} key={route.path} />
-            ))
-          }
-        </Switch>
+        <Root>
+          <Switch>
+            {
+              routes(userId).map((route) => (
+                <Route {...route} key={route.path} />
+              ))
+            }
+          </Switch>
+        </Root>
       </Suspense>
     </Router>
   );

@@ -2,27 +2,33 @@ import { lazy } from 'react';
 
 const Login = lazy(() => import('../screens/login/Login'));
 const NotFound = lazy(() => import('../screens/notFound/NotFound'));
+const Home = lazy(() => import('../screens/home/Home'));
 
 export default (id) => {
   return [
     ...publicRoutes,
-    ...id ? privateRoutes : []
+    ...(id ? privateRoutes : []),
+    // {
+    //   path: '*',
+    //   component: NotFound,
+    // },
   ];
 };
 
 const publicRoutes = [
   {
-    path: '/',
+    path: '/login',
     exact: true,
     component: Login,
-  },
-  {
-    path: '*',
-    component: NotFound,
   },
 ];
 
 const privateRoutes = [
+  {
+    path: '/',
+    exact: true,
+    component: Home,
+  },
   {
     path: '/price-list',
     exact: true,

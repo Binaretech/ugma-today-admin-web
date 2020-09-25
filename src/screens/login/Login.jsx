@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
 import TextInput from '../../components/textInput/TextInput';
 
 import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
-import { request } from '../../redux/actions/requestActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions, loading } from '../../redux/actions/sessionActions';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
+import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
 import styles from './Login.module.css';
+import { withRouter } from 'react-router-dom';
 
-function Login() {
-  const inputValues = {
+function Login({ history: { push } }) {
+
+  const inputValues = process.env.REACT_APP_ENV === 'local' ? {
     username: 'mari_conazo',
     password: 'secret',
-  };
+  } : {};
 
-  const loader = useSelector((state) => state.sessionReducer.loading);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   let xhr = null;
@@ -32,13 +34,20 @@ function Login() {
       },
     });
 
-    dispatch(loading());
-    dispatch(
-      request(xhr, sessionActions.LOGIN, sessionActions.ERROR_LOGIN, {
-        showSnackbarError: true,
-        showSnackbarSuccess: true,
-      })
-    );
+    setLoading(true);
+
+    xhr.send().then((response) => {
+      setLoading(false);
+      dispatch(setUserData(response?.data));
+      push('/');
+    }).catch((response) => {
+      setLoading(false);
+
+      dispatch(snackbarMessage(
+        response?.data?.message ||
+        trans('Components.snackbar.successMessage')
+      ));
+    });
   };
 
   const onChange = ({ target: { name, value } }) => {
@@ -47,7 +56,7 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      {(loader && <Loader fullscreen />) || (
+      {(loading && <Loader fullscreen />) || (
         <form className={styles.form}>
           <TextInput
             label={trans('words.user')}
@@ -73,4 +82,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withRouter(Login);
