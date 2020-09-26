@@ -1,6 +1,25 @@
 import TextInput from "../../components/textInput/TextInput";
 import { trans } from "../../trans/trans";
 
+const currencies = [
+    {
+        value: 0,
+        label: '$',
+    },
+    {
+        value: 1,
+        label: '€',
+    },
+    {
+        value: 2,
+        label: '฿',
+    },
+    {
+        value: 3,
+        label: '¥',
+    },
+];
+
 /**
  * @typedef {object} CustomRule
  * @prop {string} message
@@ -21,64 +40,55 @@ import { trans } from "../../trans/trans";
  *
  * @param {Props} props
  */
-export default () => ([
-    [
-        {
-            type: TextInput,
-            props: {
-                name: 'name',
-                label: trans('words.name'),
-                rules: ['required', 'string', 'min:4', 'max:128'],
+export default (data) => {
+    console.log(data);
+    return [
+        [
+            {
+                type: TextInput,
+                props: {
+                    name: 'name',
+                    label: trans('words.name'),
+                    rules: ['required', 'string', 'min:4', 'max:128'],
+                    defaultValue: data?.name,
+                }
             }
-        }
-    ],
-    [
-        {
-            type: TextInput,
-            props: {
-                name: 'comment',
-                label: trans('words.comment'),
-                rules: ['required', 'string', 'min:4', 'max:128'],
+        ],
+        [
+            {
+                type: TextInput,
+                props: {
+                    name: 'comment',
+                    label: trans('words.comment'),
+                    rules: ['required', 'string', 'min:4', 'max:128'],
+                    defaultValue: data?.comment,
+                }
             }
-        }
-    ],
-    [
-        {
-            type: TextInput,
-            props: {
-                name: 'currency',
-                className: 'price-input',
-                label: trans('words.currency'),
-                select: true,
-                options: [
-                    {
-                        value: 'USD',
-                        label: '$',
-                    },
-                    {
-                        value: 'EUR',
-                        label: '€',
-                    },
-                    {
-                        value: 'BTC',
-                        label: '฿',
-                    },
-                    {
-                        value: 'JPY',
-                        label: '¥',
-                    },
-                ],
-                rules: ['required'],
+        ],
+        [
+            {
+                type: TextInput,
+                props: {
+                    name: 'currency',
+                    className: 'price-input',
+                    label: trans('words.currency'),
+                    select: true,
+                    defaultValue: data?.currency ?
+                        currencies.find((currency) => currency.value === data.currency) : {},
+                    options: currencies,
+                    rules: ['required'],
+                }
+            },
+            {
+                type: TextInput,
+                props: {
+                    name: 'price',
+                    type: 'number',
+                    defaultValue: data?.price,
+                    label: trans('words.price'),
+                    rules: ['required', 'number', 'min:0', 'max:9999999999999999,99'],
+                }
             }
-        },
-        {
-            type: TextInput,
-            props: {
-                name: 'price',
-                type: 'number',
-                label: trans('words.price'),
-                rules: ['required', 'number', 'min:0', 'max:9999999999999999,99'],
-            }
-        }
-    ],
-]);
+        ],
+    ];
+};

@@ -21,12 +21,15 @@ export function boolean(value) {
 }
 
 export function min(value, rules, minValue) {
+    minValue = parseFloat(minValue);
+
     if (rules.includes('number')) return value >= minValue;
     return value.length >= minValue;
 }
 
 export function max(value, rules, maxValue) {
-    console.log(value, rules, maxValue);
+    maxValue = parseFloat(maxValue);
+
     if (rules.includes('number')) return value <= maxValue;
     return value.length <= maxValue;
 }
