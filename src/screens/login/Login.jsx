@@ -52,7 +52,7 @@ function Login() {
     });
   };
 
-  const onChange = ({ target: { name, value } }) => {
+  function onChange({ target: { name, value } }) {
     inputValues[name] = value;
   };
 

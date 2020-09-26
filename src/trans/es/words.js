@@ -1,6 +1,6 @@
 export default {
   //    A
-
+  accept: 'Aceptar',
   //    B
 
   //    C

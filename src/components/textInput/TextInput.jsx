@@ -33,7 +33,7 @@ function TextInput(props) {
     const { target: { name, value } } = e;
 
     if (props.onChange) {
-      props.onchange(e);
+      props.onChange(e);
     }
 
     if (props.setValue) {
@@ -44,6 +44,7 @@ function TextInput(props) {
 
   function formatProps() {
     return {
+      name: props.name,
       error: errorMessage ? true : false,
       type: props.type,
       variant: props.variant,
