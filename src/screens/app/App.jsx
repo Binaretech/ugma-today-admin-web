@@ -12,7 +12,7 @@ function App() {
   setLanguage('es');
 
   return (
-    <div className="App">;
+    <div className="App">
       <ErrorBoundary>
         <Routes />
       </ErrorBoundary>

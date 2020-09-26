@@ -25,6 +25,7 @@ export default {
   //    M
 
   //    N
+  name: 'Nombre',
 
   //    O
 

@@ -1,53 +1,52 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { useSelector } from 'react-redux';
-import cleanErrors from '../../redux/actions/requestActions';
+import { useValidator, useErrorMessage } from '../../utils/customHooks';
 
-export default function TextInput({
-  name,
-  label = '',
-  value,
-  variant = 'outlined',
-  onChange,
-  type = 'text',
-}) {
-  const inputRef = useRef(null);
-  const [message, setMessage] = useState('');
-  const errors = useSelector(
-    (state) => state.requestReducer.errors[name] || []
-  );
+/**
+ * @typedef {object} Props
+ * @prop {string} name
+ * @prop {string?} label
+ * @prop {string} value
+ * @prop {'outlined'|'standard'|'filled'} variant
+ * @prop {function(event) => void} onChange
+ * @prop {function(string, string) => void} setValue
+ * @prop {function(string, string) => void} setError
+ * @prop {string} type
+ * @prop {string[]} rules
+ * 
+ * @param {Props} props 
+ */
+export default function TextInput({ name, label = '', value, variant = 'outlined', onChange, setError, setValue, type = 'text', rules }) {
 
-  useEffect(() => {
-    if (errors.length > 0) {
-      setMessage(organizeMessage(errors));
+  const [validationError, validate] = useValidator(rules);
+  const errorMessage = useErrorMessage(name, [validationError]);
+
+  function change(e) {
+    const { target: { name, value } } = e;
+
+    if (onChange) {
+      onchange(e);
     }
 
-    if (errors.length === 0) setMessage('');
+    if (setValue) {
+      setValue(name, value);
+    }
 
-    return () => {
-      cleanErrors();
-    };
-  }, [errors, name, message]);
+    validate(value);
+  }
 
   return (
     <TextField
-      error={message ? true : false}
+      error={errorMessage ? true : false}
       label={label}
       name={name}
       variant={variant}
       defaultValue={value}
       type={type || 'text'}
-      onChange={onChange}
-      inputRef={inputRef}
-      helperText={message || ''}
+      onChange={change}
+      // inputRef={inputRef}
+      helperText={errorMessage || ''}
     />
   );
 }
 
-function organizeMessage(errorMessages) {
-  let completeMessage = '';
-  errorMessages.map(
-    (error) => (completeMessage = completeMessage + error + '\n')
-  );
-  return completeMessage;
-}

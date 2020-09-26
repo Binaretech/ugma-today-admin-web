@@ -2,11 +2,14 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Scaffold from '../scaffold/Scaffold';
 import { setUserData } from '../../redux/actions/sessionActions';
-import { withRouter } from 'react-router-dom';
+import { useHistory, } from 'react-router-dom';
+import paths from '../../routes/paths';
 
-function Root({ children, history: { push } }) {
+function Root({ children }) {
     const userId = useSelector((state) => state.sessionReducer?.id);
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     useEffect(() => {
         try {
@@ -19,8 +22,8 @@ function Root({ children, history: { push } }) {
             localStorage.setItem('utd', {});
         }
 
-        push('/login');
-    }, [dispatch, push]);
+        history.push(paths.login);
+    }, [dispatch, history]);
 
     return userId ? (
         <Scaffold>
@@ -35,4 +38,4 @@ function Root({ children, history: { push } }) {
         );
 }
 
-export default withRouter(Root);
+export default Root;

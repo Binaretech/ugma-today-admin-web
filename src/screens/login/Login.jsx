@@ -11,9 +11,10 @@ import { trans } from '../../trans/trans';
 import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
 import styles from './Login.module.css';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import paths from '../../routes/paths';
 
-function Login({ history: { push } }) {
+function Login() {
 
   const inputValues = process.env.REACT_APP_ENV === 'local' ? {
     username: 'mari_conazo',
@@ -23,6 +24,7 @@ function Login({ history: { push } }) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const history = useHistory();
   let xhr = null;
 
   const onSubmit = () => {
@@ -39,7 +41,7 @@ function Login({ history: { push } }) {
     xhr.send().then((response) => {
       setLoading(false);
       dispatch(setUserData(response?.data));
-      push('/');
+      history.push(paths.home);
     }).catch((response) => {
       setLoading(false);
 
@@ -82,4 +84,4 @@ function Login({ history: { push } }) {
   );
 }
 
-export default withRouter(Login);
+export default Login;
