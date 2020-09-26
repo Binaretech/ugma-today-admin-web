@@ -10,10 +10,10 @@ export default function sessionReducer(state = initialState, action) {
         loading: true,
       };
     case sessionActions.LOGIN:
-      localStorage.setItem('token', action.payload?.data?.token);
+      localStorage.setItem('utd', JSON.stringify(action.payload));
       return {
         ...state,
-        ...action.payload?.data,
+        ...action.payload,
         loading: false,
       };
 

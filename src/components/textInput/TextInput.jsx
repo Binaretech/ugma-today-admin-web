@@ -1,53 +1,85 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
-import { useSelector } from 'react-redux';
-import cleanErrors from '../../redux/actions/requestActions';
+import { useValidator, useErrorMessage } from '../../utils/customHooks';
+import { MenuItem } from '@material-ui/core';
 
-export default function TextInput({
-  name,
-  label = '',
-  value,
-  variant = 'outlined',
-  onChange,
-  type = 'text',
-}) {
+/**
+ * @typedef {object} CustomRule
+ * @prop {string} message
+ * @prop {function(any) => bool} validation
+ *
+ * @typedef {object} Props
+ * @prop {string} name
+ * @prop {string?} label
+ * @prop {string} value
+ * @prop {'outlined'|'standard'|'filled'} variant
+ * @prop {function(event) => void} onChange
+ * @prop {function(string, string) => void} setValue
+ * @prop {function(string, string) => void} setError
+ * @prop {boolean} select
+ * @prop {[{value, label}]} options
+ * @prop {string} type
+ * @prop {Array<string|CustomRule>} rules
+ * 
+ * @param {Props} props 
+ */
+function TextInput(props) {
+
+  const [validationError, validate] = useValidator(props.rules);
+  const errorMessage = useErrorMessage(props.name, [validationError]);
   const inputRef = useRef(null);
-  const [message, setMessage] = useState('');
-  const errors = useSelector(
-    (state) => state.requestReducer.errors[name] || []
-  );
 
-  useEffect(() => {
-    if (errors.length > 0) {
-      setMessage(organizeMessage(errors));
+  function change(e) {
+    const { target: { name, value } } = e;
+
+    if (props.onChange) {
+      props.onchange(e);
     }
 
-    if (errors.length === 0) setMessage('');
+    if (props.setValue) {
+      props.setValue(name, value);
+    }
+    if (!validate(value) && props.setError) props.setError(name, inputRef.current.focus);
+  }
 
-    return () => {
-      cleanErrors();
+  function formatProps() {
+    return {
+      error: errorMessage ? true : false,
+      type: props.type,
+      variant: props.variant,
+      select: props.select,
+      label: props.label,
+      onChange: change,
+      inputRef: inputRef,
+      helperText: errorMessage || '',
     };
-  }, [errors, name, message]);
+  }
 
-  return (
-    <TextField
-      error={message ? true : false}
-      label={label}
-      name={name}
-      variant={variant}
-      defaultValue={value}
-      type={type || 'text'}
-      onChange={onChange}
-      inputRef={inputRef}
-      helperText={message || ''}
-    />
+
+  function renderSelect() {
+    return (
+      <TextField {...formatProps()} >
+        {
+          props.options.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))
+        }
+      </TextField>
+    );
+  }
+
+  return props.select ? renderSelect() : (
+    <TextField {...formatProps()} />
   );
 }
 
-function organizeMessage(errorMessages) {
-  let completeMessage = '';
-  errorMessages.map(
-    (error) => (completeMessage = completeMessage + error + '\n')
-  );
-  return completeMessage;
-}
+
+TextInput.defaultProps = {
+  variant: 'outlined',
+  type: 'text',
+  options: [],
+};
+
+export default TextInput;

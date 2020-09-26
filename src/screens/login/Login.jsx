@@ -1,32 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
 import TextInput from '../../components/textInput/TextInput';
 
 import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
-import { request } from '../../redux/actions/requestActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions, loading } from '../../redux/actions/sessionActions';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
+import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
 import styles from './Login.module.css';
-
-const inputValues =
-  process.env.REACT_APP_ENV === 'local'
-    ? {
-        username: 'mari_conazo',
-        password: 'secret',
-      }
-    : {
-        username: '',
-        password: '',
-      };
+import { useHistory } from 'react-router-dom';
+import paths from '../../routes/paths';
 
 function Login() {
-  const loader = useSelector((state) => state.sessionReducer.loading);
+
+  const inputValues = process.env.REACT_APP_ENV === 'local' ? {
+    username: 'mari_conazo',
+    password: 'secret',
+  } : {};
+
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const history = useHistory();
   let xhr = null;
 
   const onSubmit = () => {
@@ -38,13 +36,20 @@ function Login() {
       },
     });
 
-    dispatch(loading());
-    dispatch(
-      request(xhr, sessionActions.LOGIN, sessionActions.ERROR_LOGIN, {
-        showSnackbarError: true,
-        showSnackbarSuccess: true,
-      })
-    );
+    setLoading(true);
+
+    xhr.send().then((response) => {
+      setLoading(false);
+      dispatch(setUserData(response?.data));
+      history.push(paths.home);
+    }).catch((response) => {
+      setLoading(false);
+
+      dispatch(snackbarMessage(
+        response?.data?.message ||
+        trans('Components.snackbar.successMessage')
+      ));
+    });
   };
 
   const onChange = ({ target: { name, value } }) => {
@@ -53,7 +58,7 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      {(loader && <Loader fullscreen />) || (
+      {(loading && <Loader fullscreen />) || (
         <form className={styles.form}>
           <TextInput
             label={trans('words.user')}
