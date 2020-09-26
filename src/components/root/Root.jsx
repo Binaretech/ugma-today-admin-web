@@ -4,6 +4,7 @@ import Scaffold from '../scaffold/Scaffold';
 import { setUserData } from '../../redux/actions/sessionActions';
 import { useHistory, } from 'react-router-dom';
 import paths from '../../routes/paths';
+import { loadUserData } from '../../utils/functions';
 
 function Root({ children }) {
     const userId = useSelector((state) => state.sessionReducer?.id);
@@ -12,16 +13,11 @@ function Root({ children }) {
     const history = useHistory();
 
     useEffect(() => {
-        try {
-            const data = JSON.parse(localStorage.getItem('utd') || {});
-            if (data) {
-                dispatch(setUserData(data));
-                return;
-            }
-        } catch (error) {
-            localStorage.setItem('utd', {});
+        const data = loadUserData();
+        if (data) {
+            dispatch(setUserData(data));
+            return;
         }
-
         history.push(paths.login);
     }, [dispatch, history]);
 

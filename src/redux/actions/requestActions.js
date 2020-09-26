@@ -23,7 +23,7 @@ export function request(
           dispatch(
             snackbarMessage(
               response?.data?.message ||
-                trans('Components.snackbar.successMessage')
+              trans('Components.snackbar.successMessage')
             )
           );
         return dispatch({
@@ -36,7 +36,7 @@ export function request(
           dispatch(
             snackbarMessage(
               err?.response?.data?.message ||
-                trans('Components.snackbar.errorMessage')
+              trans('Components.snackbar.errorMessage')
             )
           );
         dispatch(setErrors(err));

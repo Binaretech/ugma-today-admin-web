@@ -20,5 +20,10 @@
 }
 
 .form>.row:last-child>.input:first-child {
-    flex: 0.3;
+    flex: 0.2;
+}
+
+.buttoncontainer {
+    display: flex;
+    justify-content: center;
 }
