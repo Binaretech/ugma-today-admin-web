@@ -12,12 +12,18 @@ import { trans } from '../../trans/trans';
 
 import styles from './Login.module.css';
 
-function Login() {
-  const inputValues = {
-    username: 'mari_conazo',
-    password: 'secret',
-  };
+const inputValues =
+  process.env.REACT_APP_ENV === 'local'
+    ? {
+        username: 'mari_conazo',
+        password: 'secret',
+      }
+    : {
+        username: '',
+        password: '',
+      };
 
+function Login() {
   const loader = useSelector((state) => state.sessionReducer.loading);
   const dispatch = useDispatch();
 
