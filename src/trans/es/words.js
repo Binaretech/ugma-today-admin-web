@@ -5,6 +5,8 @@ export default {
 
   //    C
   connectionError: 'Error de conexión',
+  comment: 'Commentario',
+  currency: 'Moneda',
 
   //    D
 
@@ -31,6 +33,7 @@ export default {
 
   //    P
   password: 'Contraseña',
+  price: 'Precio',
 
   //    Q
 

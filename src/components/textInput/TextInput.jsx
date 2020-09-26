@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useValidator, useErrorMessage } from '../../utils/customHooks';
+import { MenuItem } from '@material-ui/core';
 
 /**
+ * @typedef {object} CustomRule
+ * @prop {string} message
+ * @prop {function(any) => bool} validation
+ *
  * @typedef {object} Props
  * @prop {string} name
  * @prop {string?} label
@@ -11,42 +16,70 @@ import { useValidator, useErrorMessage } from '../../utils/customHooks';
  * @prop {function(event) => void} onChange
  * @prop {function(string, string) => void} setValue
  * @prop {function(string, string) => void} setError
+ * @prop {boolean} select
+ * @prop {[{value, label}]} options
  * @prop {string} type
- * @prop {string[]} rules
+ * @prop {Array<string|CustomRule>} rules
  * 
  * @param {Props} props 
  */
-export default function TextInput({ name, label = '', value, variant = 'outlined', onChange, setError, setValue, type = 'text', rules }) {
+function TextInput(props) {
 
-  const [validationError, validate] = useValidator(rules);
-  const errorMessage = useErrorMessage(name, [validationError]);
+  const [validationError, validate] = useValidator(props.rules);
+  const errorMessage = useErrorMessage(props.name, [validationError]);
+  const inputRef = useRef(null);
 
   function change(e) {
     const { target: { name, value } } = e;
 
-    if (onChange) {
-      onchange(e);
+    if (props.onChange) {
+      props.onchange(e);
     }
 
-    if (setValue) {
-      setValue(name, value);
+    if (props.setValue) {
+      props.setValue(name, value);
     }
-
-    validate(value);
+    if (!validate(value) && props.setError) props.setError(name, inputRef.current.focus);
   }
 
-  return (
-    <TextField
-      error={errorMessage ? true : false}
-      label={label}
-      name={name}
-      variant={variant}
-      defaultValue={value}
-      type={type || 'text'}
-      onChange={change}
-      // inputRef={inputRef}
-      helperText={errorMessage || ''}
-    />
+  function formatProps() {
+    return {
+      error: errorMessage ? true : false,
+      type: props.type,
+      variant: props.variant,
+      select: props.select,
+      label: props.label,
+      onChange: change,
+      inputRef: inputRef,
+      helperText: errorMessage || '',
+    };
+  }
+
+
+  function renderSelect() {
+    return (
+      <TextField {...formatProps()} >
+        {
+          props.options.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))
+        }
+      </TextField>
+    );
+  }
+
+  return props.select ? renderSelect() : (
+    <TextField {...formatProps()} />
   );
 }
 
+
+TextInput.defaultProps = {
+  variant: 'outlined',
+  type: 'text',
+  options: [],
+};
+
+export default TextInput;

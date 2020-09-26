@@ -15,9 +15,10 @@ import cleanErrors from "../redux/actions/requestActions";
  * @typedef {object} Handler
  * @prop {function(string, any)} setValue
  * @prop {function(string, any)} setError
+ * @prop {function(string) => any} getValue
  * 
  * @param {{}} initialData 
- * @returns {[object, Handler]}
+ * @returns {Handler}
  */
 export function useDataManager(initialData = {}) {
     const data = useRef(initialData);
@@ -25,36 +26,72 @@ export function useDataManager(initialData = {}) {
 
     function setValue(name, value) {
         data.current[name] = value;
-        console.log(data.current);
     }
 
     function setError(name, value) {
         errors.current[name] = value;
     }
 
+    function getValue(name, defaultValue = null) {
+        if (!data.current[name]) return defaultValue;
+        return data.current[name];
+    }
+
     const manager = {
         setValue,
-        setError
+        setError,
+        getValue,
     };
 
-    return [data.current, manager];
+    return manager;
 }
 
 /**
  * ```useValidator``` handle a set of validation rules and handle the errorMessage
- * @param {string[]} rules 
+ * @typedef {object} CustomRule
+ * @prop {string} message
+ * @prop {function(any) => bool} validation
+ * 
+ * @param {Array<string|CustomRule>} rules 
  */
 export function useValidator(rules = []) {
     const [validationError, setvalidationError] = useState('');
 
     function validate(value) {
         for (const rule of rules) {
-            if (!validationRules[rule](value)) {
-                return setvalidationError(trans(`validation.${rule}`));
+            if (typeof rule === 'object' && rule.validation && !rule.validation(value)) {
+                setvalidationError(rule.message);
+                return false;
+            }
+
+            const validationName = rule.split(':')[0];
+            const params = rule.split(':')[1]?.split(',') || [];
+
+            if (validationRules[validationName] && !validationRules[validationName](value, rules, ...params)) {
+                let message = trans(`validation.${validationName}`, formatParams(params));
+
+                if (rules.includes('number')) message = message.replace(/caracteres/, '');
+
+                setvalidationError(message);
+                return false;
             }
         }
 
+        function formatParams(params) {
+            let transParams = {};
+
+            params.forEach((param, index) => {
+                transParams = {
+                    ...transParams,
+                    [index]: param,
+                };
+            });
+
+            return transParams;
+        }
+
         setvalidationError('');
+        return true;
     }
 
     return [validationError, validate];
@@ -66,7 +103,7 @@ export function useErrorMessage(name, aditionalMessages = []) {
 
     useEffect(() => {
         const messages = [...errors, ...aditionalMessages];
-        console.log(messages);
+
         if (messages.length > 0) {
             setMessage(organizeMessage(messages));
         }

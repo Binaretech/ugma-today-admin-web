@@ -1,0 +1,24 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.row {
+    display: flex;
+    padding: 1em 0;
+}
+
+.input {
+    flex: 1;
+    display: flex;
+    padding: 0 0.3em;
+}
+
+.input>div {
+    flex: 1;
+}
+
+.form>.row:last-child>.input:first-child {
+    flex: 0.3;
+}
