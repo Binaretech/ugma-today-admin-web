@@ -9,7 +9,7 @@ import styles from './CreateCost.module.css';
 import apiEndpoints from '../../apiEndpoints';
 import { useDispatch } from 'react-redux';
 import { snackbarMessage } from '../../redux/actions/snackbarActions';
-import { setErrors } from '../../redux/actions/requestActions';
+import cleanErrors, { setErrors } from '../../redux/actions/requestActions';
 
 function CreateCost() {
 
@@ -20,13 +20,11 @@ function CreateCost() {
     let xhr = null;
 
     function submit() {
+        if (manager.hasErrors) return;
         if (xhr) xhr.abort();
 
         xhr = Xhr.post(apiEndpoints.createCost, {
-            data: {
-                name: manager.getValue('name'),
-                price: manager.getValue('price'),
-            }
+            data: manager.getData()
         });
 
         xhr.send().then((response) => {
@@ -36,6 +34,12 @@ function CreateCost() {
                     trans('Components.snackbar.successMessage')
                 )
             );
+
+            manager.cleanData();
+            manager.cleanErrors();
+
+            dispatch(cleanErrors());
+
             setLoading(false);
         }).catch((err) => {
             dispatch(
@@ -58,14 +62,14 @@ function CreateCost() {
             <div>
                 <form autoComplete="off" className={styles.form}>
                     {
-                        createCostInputs()
+                        createCostInputs(manager.getData())
                             .map((row, index) => (
-                                <div className={styles.row}>
+                                <div className={styles.row} key={index}>
                                     {
                                         row.map((input) => (
-                                            <div className={styles.input}>
+                                            <div className={styles.input}
+                                                key={input.props.name}>
                                                 <input.type
-                                                    key={input.props.name}
                                                     {...input.props}
                                                     setValue={manager.setValue}
                                                 />

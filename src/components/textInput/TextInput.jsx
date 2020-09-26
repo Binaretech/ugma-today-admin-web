@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useValidator, useErrorMessage } from '../../utils/customHooks';
 import { MenuItem } from '@material-ui/core';
@@ -29,6 +29,14 @@ function TextInput(props) {
   const errorMessage = useErrorMessage(props.name, [validationError]);
   const inputRef = useRef(null);
 
+  useEffect(() => {
+    inputRef.current.value = props.defaultValue ?? '';
+  }, [props.defaultValue]);
+
+  useEffect(() => {
+    inputRef.current.checked = props.defaultChecked ?? '';
+  }, [props.defaultChecked]);
+
   function change(e) {
     const { target: { name, value } } = e;
 
@@ -39,7 +47,7 @@ function TextInput(props) {
     if (props.setValue) {
       props.setValue(name, value);
     }
-    if (!validate(value) && props.setError) props.setError(name, inputRef.current.focus);
+    if (!validate(value) && props.setError) props.setError(name, inputRef.current);
   }
 
   function formatProps() {
@@ -53,13 +61,15 @@ function TextInput(props) {
       onChange: change,
       inputRef: inputRef,
       helperText: errorMessage || '',
+      defaultValue: props.defaultValue,
+      defaultChecked: props.defaultChecked,
     };
   }
 
 
   function renderSelect() {
     return (
-      <TextField {...formatProps()} >
+      <TextField {...formatProps()}>
         {
           props.options.map((option) => (
             <MenuItem key={option.value} value={option.value}>

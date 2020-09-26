@@ -17,6 +17,10 @@ import cleanErrors from "../redux/actions/requestActions";
  * @prop {function(string, any)} setError
  * @prop {function(string) => any} getValue
  * @prop {function() => any} getData
+ * @prop {function()} cleanData
+ * @prop {function()} cleanErrors
+ * @prop {function() => bool} hasErrors
+ * @prop {function(string) => any} getError
  * 
  * @param {{}} initialData 
  * @returns {Handler}
@@ -42,11 +46,38 @@ export function useDataManager(initialData = {}) {
         return data.current;
     }
 
+    function cleanData() {
+        return data.current = {};
+    }
+
+    function cleanErrors() {
+        return errors.current = {};
+    }
+
+    function hasErrors() {
+        for (const error of errors.current) {
+            if (error) {
+                error.focus();
+                return true;
+            };
+        }
+
+        return false;
+    }
+
+    function getError(key) {
+        return errors.current[key] ? true : false;
+    }
+
     const manager = {
         setValue,
         setError,
         getValue,
         getData,
+        cleanData,
+        cleanErrors,
+        hasErrors,
+        getError,
     };
 
     return manager;
