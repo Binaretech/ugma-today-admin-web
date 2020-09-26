@@ -10,7 +10,7 @@ import routeList from './routeList';
 // });
 
 test('should returns routes array', () => {
-  expect(routeList).toEqual(
+  expect(routeList()).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
         path: '*',

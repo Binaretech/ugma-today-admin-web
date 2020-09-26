@@ -13,10 +13,10 @@ export function trans(translation) {
 
   let message = availableLanguages[language];
 
-  // eslint-disable-next-line
-  path.forEach((key) => {
-    message = message[key];
-  });
+  for (let index = 0; index < path.length; index++) {
+    message = message[path[index]];
+    if (!message) return translation;
+  }
 
   if (!message) return translation;
   return message;
