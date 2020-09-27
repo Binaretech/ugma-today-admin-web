@@ -3,14 +3,14 @@ import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
 import TextInput from '../../components/textInput/TextInput';
 
-import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
 import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
 import styles from './Login.module.css';
+import { useXhr } from '../../utils/xhr/hook';
+import { setLogin } from '../../redux/actions/sessionActions';
 import { useHistory } from 'react-router-dom';
 import paths from '../../routes/paths';
 import { setErrors } from '../../redux/actions/requestActions';
@@ -24,31 +24,25 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
+  const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });
   const history = useHistory();
-  let xhr = null;
 
   const onSubmit = () => {
-    if (xhr) xhr.abort();
-
-    xhr = Xhr.post(apiEndpoints.login, {
-      data: {
-        ...inputValues,
-      },
-    });
-
     setLoading(true);
 
-    xhr.send().then((response) => {
+    send({
+      body: {
+        ...inputValues,
+      }
+    }).then((response) => {
       setLoading(false);
-      dispatch(setUserData(response?.data));
+      dispatch(setLogin(response));
       history.push(paths.home);
-    }).catch((error) => {
+    }).catch((response) => {
       setLoading(false);
-      dispatch(setErrors(error));
-
+      dispatch(setErrors(response));
       dispatch(snackbarMessage(
-        error?.response?.data?.message ||
+        response?.data?.message ||
         trans('Components.snackbar.errorMessage')
       ));
     });

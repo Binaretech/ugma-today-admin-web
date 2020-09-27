@@ -17,9 +17,10 @@ export function error(error) {
   };
 }
 
-export function setUserData(payload) {
+
+export function setLogin(payload) {
   return {
     type: sessionActions.LOGIN,
-    payload,
+    payload
   };
 }
