@@ -3,6 +3,9 @@ import { defaultOptions } from './xhrConfig';
 import appBaseUrl from '../../configs';
 import { useHistory } from "react-router-dom";
 import paths from "../../routes/paths";
+import { useDispatch, useSelector } from "react-redux";
+import { snackbarMessage } from "../../redux/actions/snackbarActions";
+import { trans } from "../../trans/trans";
 
 /**
  * @typedef {object} Params
@@ -14,13 +17,18 @@ import paths from "../../routes/paths";
  * @prop {"" | "arraybuffer" | "blob" | "document" | "json" | "text"} responseType
  * @prop {object} headers
  * @prop {boolean} redirectUnauthorized
+ * @prop {boolean} showSucessSnackbar
+ * @prop {boolean} showErrorSnackbar
  * 
  * @param {Params} params 
  */
 export function useXhr(params) {
     params = { ...defaultOptions, ...params };
+
     const xhr = useRef(new XMLHttpRequest());
-    const { push } = useHistory();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.sessionReducer.token);
 
     /**
      * 
@@ -28,14 +36,18 @@ export function useXhr(params) {
      * @returns {Promise<any>}
      */
     function send(options = {}) {
-        const conf = { ...params, ...options };
+
+        options = { ...params, ...options };
 
         xhr.current.abort();
+
         return new Promise((resolve, reject) => {
-            xhr.current.open(conf.method, formatUrl(conf), true);
-            xhr.current.send(setBody(conf));
+            xhr.current.open(options.method, formatUrl(options), true);
+
+            setHeaders(options, xhr.current, token);
+            xhr.current.send(setBody(options));
             xhr.current.onload = () => {
-                const response = getResponse();
+                const response = getResponse(options, xhr.current);
 
                 if (xhr.current.status >= 200 && xhr.current.status < 300) {
                     resolve(options.responseType === 'json' ? {
@@ -44,10 +56,17 @@ export function useXhr(params) {
                             [options.responseType]: response, status: xhr.current.status
                         }
                     );
+
+                    if (options.showSucessSnackbar) {
+                        dispatch(snackbarMessage(
+                            response?.data?.message || response?.message ||
+                            trans('Components.snackbar.successMessage')
+                        ));
+                    }
                     return;
                 }
 
-                if (xhr.current.status === 401 && conf.redirectUnauthorized) push(paths.login);
+                if (xhr.current.status === 401 && options.redirectUnauthorized) history.push(paths.login);
 
                 return reject({ ...response, status: xhr.current.status });
             };
@@ -83,7 +102,6 @@ function formatUrl({ useBaseUrl, url, params }) {
         url = url.replace(`:${param}`, params[param]);
     });
 
-    console.log(useBaseUrl, url);
     return url;
 }
 
@@ -112,7 +130,7 @@ function setBody(options = {}) {
     };
 
     if (options?.headers?.hasOwnProperty('Content-Type') && options?.headers['Content-Type'] === 'application/json') {
-        return JSON.stringify(this.options.body);
+        return JSON.stringify(options.body);
     }
     const formData = new FormData();
 
@@ -137,4 +155,21 @@ function getResponse(options, xhr) {
     } catch (error) {
         return xhr.response;
     }
+}
+
+/**
+ * 
+ * @param {Params} options 
+ * @param {XMLHttpRequest} xhr 
+ */
+function setHeaders(options, xhr, token) {
+    if (options.useToken && token) {
+        options.headers.Authorization = `Bearer ${token}`;
+    }
+
+    Object.keys(options.headers).forEach((key) => {
+        xhr.setRequestHeader(key, options.headers[key]);
+    });
+
+    return this;
 }

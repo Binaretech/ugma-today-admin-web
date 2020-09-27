@@ -1,51 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
 import TextInput from '../../components/textInput/TextInput';
 
-import Xhr from '../../Xhr';
 import apiEndpoints from '../../apiEndpoints';
-import { request } from '../../redux/actions/requestActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions, loading } from '../../redux/actions/sessionActions';
+import { useDispatch } from 'react-redux';
 import { trans } from '../../trans/trans';
 
 import styles from './Login.module.css';
 import { useXhr } from '../../utils/xhr/hook';
+import { setLogin } from '../../redux/actions/sessionActions';
+import { useHistory } from 'react-router-dom';
+import paths from '../../routes/paths';
+import { setErrors } from '../../redux/actions/requestActions';
+import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
 function Login() {
   const inputValues = {
     username: 'mari_conazo',
     password: 'secret',
   };
-  const loader = useSelector((state) => state.sessionReducer.loading);
-  const dispatch = useDispatch();
-  const [send,] = useXhr({ url: apiEndpoints.login, method: "POST" });
 
-  let xhr = null;
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });
+  const history = useHistory();
 
   const onSubmit = () => {
+    setLoading(true);
+
     send({
       body: {
         ...inputValues,
       }
+    }).then((response) => {
+      setLoading(false);
+      dispatch(setLogin(response));
+      history.push(paths.home);
+    }).catch((response) => {
+      setLoading(false);
+      dispatch(setErrors(response));
+      dispatch(snackbarMessage(
+        response?.data?.message ||
+        trans('Components.snackbar.errorMessage')
+      ));
     });
-    return;
-    if (xhr) xhr.abort();
-
-    xhr = Xhr.post(apiEndpoints.login, {
-      data: {
-        ...inputValues,
-      },
-    });
-
-    dispatch(loading());
-    dispatch(
-      request(xhr, sessionActions.LOGIN, sessionActions.ERROR_LOGIN, {
-        showSnackbarError: true,
-        showSnackbarSuccess: true,
-      })
-    );
   };
 
   const onChange = ({ target: { name, value } }) => {
@@ -54,7 +53,7 @@ function Login() {
 
   return (
     <div className={styles.container}>
-      {(loader && <Loader fullscreen />) || (
+      {(loading && <Loader fullscreen />) || (
         <form className={styles.form}>
           <TextInput
             label={trans('words.user')}

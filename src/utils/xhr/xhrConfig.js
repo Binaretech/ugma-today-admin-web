@@ -6,9 +6,12 @@ export const defaultOptions = {
     useBaseUrl: true,
     body: {},
     headers: {
-        'Content-Type': 'Application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
     },
     params: {},
     responseType: 'json',
     redirectUnauthorized: true,
+    showErrorSnackbar: false,
+    showSucessSnackbar: false,
 };
