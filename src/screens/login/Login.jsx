@@ -15,11 +15,16 @@ import paths from '../../routes/paths';
 import { setErrors } from '../../redux/actions/requestActions';
 import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
-function Login() {
-  const inputValues = {
-    username: 'mari_conazo',
-    password: 'secret',
-  };
+const inputValues =
+  process.env.REACT_APP_ENV === 'local'
+    ? {
+        username: 'mari_conazo',
+        password: 'secret',
+      }
+    : {
+        username: '',
+        password: '',
+      };
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

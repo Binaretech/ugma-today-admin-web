@@ -8,7 +8,7 @@ import { createStore } from 'redux';
 
 const name = 'input',
   value = 'initial value',
-  onChange = () => {},
+  onChange = () => { },
   label = 'test input';
 
 const TextInputComponent = (props) => (
