@@ -13,6 +13,7 @@ import { snackbarMessage } from '../../redux/actions/snackbarActions';
 import styles from './Login.module.css';
 import { useHistory } from 'react-router-dom';
 import paths from '../../routes/paths';
+import { setErrors } from '../../redux/actions/requestActions';
 
 function Login() {
 
@@ -42,12 +43,13 @@ function Login() {
       setLoading(false);
       dispatch(setUserData(response?.data));
       history.push(paths.home);
-    }).catch((response) => {
+    }).catch((error) => {
       setLoading(false);
+      dispatch(setErrors(error));
 
       dispatch(snackbarMessage(
-        response?.data?.message ||
-        trans('Components.snackbar.successMessage')
+        error?.response?.data?.message ||
+        trans('Components.snackbar.errorMessage')
       ));
     });
   };
