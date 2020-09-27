@@ -11,19 +11,26 @@ import { sessionActions, loading } from '../../redux/actions/sessionActions';
 import { trans } from '../../trans/trans';
 
 import styles from './Login.module.css';
+import { useXhr } from '../../utils/xhr/hook';
 
 function Login() {
   const inputValues = {
     username: 'mari_conazo',
     password: 'secret',
   };
-
   const loader = useSelector((state) => state.sessionReducer.loading);
   const dispatch = useDispatch();
+  const [send,] = useXhr({ url: apiEndpoints.login, method: "POST" });
 
   let xhr = null;
 
   const onSubmit = () => {
+    send({
+      body: {
+        ...inputValues,
+      }
+    });
+    return;
     if (xhr) xhr.abort();
 
     xhr = Xhr.post(apiEndpoints.login, {
