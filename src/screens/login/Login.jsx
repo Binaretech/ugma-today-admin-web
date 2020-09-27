@@ -18,14 +18,15 @@ import { snackbarMessage } from '../../redux/actions/snackbarActions';
 const inputValues =
   process.env.REACT_APP_ENV === 'local'
     ? {
-        username: 'mari_conazo',
-        password: 'secret',
-      }
+      username: 'mari_conazo',
+      password: 'secret',
+    }
     : {
-        username: '',
-        password: '',
-      };
+      username: '',
+      password: '',
+    };
 
+function Login() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });

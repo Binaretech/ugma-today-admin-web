@@ -22,7 +22,7 @@ const fakeUser = {
   }
 };
 
-jest.spyOn(global, 'fetch').mockImplementation(() => {
+jest.spyOn(XMLHttpRequest.prototype, 'send').mockImplementation(() => {
   Promise.resolve(fakeUser);
 });
 
