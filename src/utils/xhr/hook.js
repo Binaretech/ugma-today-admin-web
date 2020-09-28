@@ -71,8 +71,15 @@ export function useXhr(params) {
                 return reject({ ...response, status: xhr.current.status });
             };
 
-            xhr.current.onerror = () => reject();
-            xhr.current.ontimeout = () => reject();
+            xhr.current.onerror = () => reject({
+                type: 'error',
+                message: trans('errors.networkError'),
+            });
+
+            xhr.current.ontimeout = () => reject({
+                type: 'timeout',
+                message: trans('errors.timeout'),
+            });
         });
     }
 

@@ -4,54 +4,36 @@ import { Button } from '@material-ui/core';
 import { trans } from '../../trans/trans';
 import { useDataManager } from '../../utils/customHooks';
 import createCostInputs from './createCostInputs';
-import Xhr from '../../Xhr';
 import styles from './CreateCost.module.css';
-import apiEndpoints from '../../apiEndpoints';
+import { useXhr } from '../../utils/xhr/hook';
+import requests from '../../utils/xhr/requests';
 import { useDispatch } from 'react-redux';
-import { snackbarMessage } from '../../redux/actions/snackbarActions';
 import cleanErrors, { setErrors } from '../../redux/actions/requestActions';
 
 function CreateCost() {
 
-    const manager = useDataManager();
+    const manager = useDataManager({ currency: 0 });
     const [loading, setLoading] = useState(false);
+    const [send] = useXhr(requests.cost.store);
     const dispatch = useDispatch();
 
-    let xhr = null;
-
     function submit() {
-        if (manager.hasErrors) return;
-        if (xhr) xhr.abort();
+        console.log('submit', manager.getErrors());
+        if (manager.hasErrors()) return;
 
-        xhr = Xhr.post(apiEndpoints.createCost, {
-            data: manager.getData()
-        });
-
-        xhr.send().then((response) => {
-            dispatch(
-                snackbarMessage(
-                    response?.data?.message ||
-                    trans('Components.snackbar.successMessage')
-                )
-            );
-
-            manager.cleanData();
-            manager.cleanErrors();
-
-            dispatch(cleanErrors());
-
-            setLoading(false);
-        }).catch((err) => {
-            dispatch(
-                snackbarMessage(
-                    err.response?.data?.message ||
-                    trans('Components.snackbar.errorMessage')
-                )
-            );
-            dispatch(setErrors(err));
-            setLoading(false);
-        });
         setLoading(true);
+        send({ body: manager.getData() })
+            .then((response) => {
+                manager.cleanData();
+                manager.setValue('currency', 0);
+                manager.cleanErrors();
+                setLoading(false);
+                dispatch(cleanErrors());
+            })
+            .catch((response) => {
+                dispatch(setErrors(response));
+                setLoading(false);
+            });
     }
 
     return (
@@ -72,6 +54,7 @@ function CreateCost() {
                                                 <input.type
                                                     {...input.props}
                                                     setValue={manager.setValue}
+                                                    setError={manager.setError}
                                                 />
                                             </div>
                                         ))

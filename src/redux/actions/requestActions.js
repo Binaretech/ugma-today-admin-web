@@ -5,6 +5,7 @@ export const requestActions = {
   LOADING: 'LOADING',
   SET_ERRORS: 'SET_ERRORS',
   CLEAN_ERRORS: 'CLEAN_ERRORS',
+  CLEAN_ERROR: 'CLEAN_ERROR',
 };
 
 export function request(
@@ -58,5 +59,12 @@ export function setErrors(errors) {
 export default function cleanErrors() {
   return {
     type: requestActions.CLEAN_ERRORS,
+  };
+}
+
+export function cleanError(key) {
+  return {
+    type: requestActions.CLEAN_ERROR,
+    key
   };
 }

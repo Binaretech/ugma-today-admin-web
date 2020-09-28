@@ -23,19 +23,25 @@ import { MenuItem } from '@material-ui/core';
  * 
  * @param {Props} props 
  */
-function TextInput(props) {
+function TextInput({ defaultValue, name, setError, defaultChecked, ...props }) {
 
   const [validationError, validate] = useValidator(props.rules);
-  const errorMessage = useErrorMessage(props.name, [validationError]);
+  const errorMessage = useErrorMessage(name, [validationError]);
   const inputRef = useRef(null);
 
   useEffect(() => {
-    inputRef.current.value = props.defaultValue ?? '';
-  }, [props.defaultValue]);
+    if (!validate(inputRef.current.value, true) && setError) setError(name, inputRef.current);
+  }, [validate, name, setError]);
 
   useEffect(() => {
-    inputRef.current.checked = props.defaultChecked ?? '';
-  }, [props.defaultChecked]);
+    inputRef.current.value = defaultValue ?? '';
+    if (!validate(inputRef.current.value, true) && setError) setError(name, inputRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue, name, setError]);
+
+  useEffect(() => {
+    inputRef.current.checked = defaultChecked ?? '';
+  }, [defaultChecked]);
 
   function change(e) {
     const { target: { name, value } } = e;
@@ -47,12 +53,20 @@ function TextInput(props) {
     if (props.setValue) {
       props.setValue(name, value);
     }
-    if (!validate(value) && props.setError) props.setError(name, inputRef.current);
+
+    if (!validate(value) && setError)
+      setError(name, inputRef.current);
+    else
+      setError(name, false);
+  }
+
+  function onFocus() {
+    if (!validate(inputRef.current.value) && setError) setError(name, inputRef.current);
   }
 
   function formatProps() {
     return {
-      name: props.name,
+      name: name,
       error: errorMessage ? true : false,
       type: props.type,
       variant: props.variant,
@@ -61,8 +75,9 @@ function TextInput(props) {
       onChange: change,
       inputRef: inputRef,
       helperText: errorMessage || '',
-      defaultValue: props.defaultValue,
-      defaultChecked: props.defaultChecked,
+      defaultValue: defaultValue,
+      defaultChecked: defaultChecked,
+      onFocus,
     };
   }
 

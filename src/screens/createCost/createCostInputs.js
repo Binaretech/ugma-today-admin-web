@@ -1,24 +1,6 @@
 import TextInput from "../../components/textInput/TextInput";
 import { trans } from "../../trans/trans";
-
-const currencies = [
-    {
-        value: 0,
-        label: '$',
-    },
-    {
-        value: 1,
-        label: '€',
-    },
-    {
-        value: 2,
-        label: '฿',
-    },
-    {
-        value: 3,
-        label: '¥',
-    },
-];
+import { currencies } from "../../static/currencies";
 
 /**
  * @typedef {object} CustomRule
@@ -41,7 +23,6 @@ const currencies = [
  * @param {Props} props
  */
 export default (data) => {
-    console.log(data);
     return [
         [
             {
@@ -60,7 +41,7 @@ export default (data) => {
                 props: {
                     name: 'comment',
                     label: trans('words.comment'),
-                    rules: ['required', 'string', 'min:4', 'max:128'],
+                    rules: ['nullable', 'string', 'min:4', 'max:128'],
                     defaultValue: data?.comment,
                 }
             }

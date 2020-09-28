@@ -18,7 +18,14 @@ export default (state = initialState, action) => {
         message: '',
         errors: {},
       };
-
+    case requestActions.CLEAN_ERROR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.key]: undefined,
+        }
+      };
     default:
       return state;
   }
