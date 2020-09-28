@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import * as validationRules from "./validator/validatorRules";
 import { trans } from "../trans/trans";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { organizeMessage } from "./array";
-import cleanErrors from "../redux/actions/requestActions";
+import { cleanError } from "../redux/actions/requestActions";
 
 
 /**
@@ -144,6 +144,7 @@ export function useValidator(rules = []) {
 export function useErrorMessage(name, aditionalMessages = []) {
     const [message, setMessage] = useState('');
     const errors = useSelector((state) => state.requestReducer.errors[name] || []);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const messages = [...errors, ...aditionalMessages];
@@ -153,11 +154,13 @@ export function useErrorMessage(name, aditionalMessages = []) {
         }
 
         if (messages.length === 0) setMessage('');
+    }, [errors, name, message, aditionalMessages, dispatch]);
 
+    useEffect(() => {
         return () => {
-            cleanErrors();
+            dispatch(cleanError(name));
         };
-    }, [errors, name, message, aditionalMessages]);
+    }, [dispatch, name]);
 
     return message;
 }

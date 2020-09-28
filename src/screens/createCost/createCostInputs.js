@@ -1,24 +1,6 @@
 import TextInput from "../../components/textInput/TextInput";
 import { trans } from "../../trans/trans";
-
-const currencies = [
-    {
-        value: 0,
-        label: '$',
-    },
-    {
-        value: 1,
-        label: '€',
-    },
-    {
-        value: 2,
-        label: '฿',
-    },
-    {
-        value: 3,
-        label: '¥',
-    },
-];
+import { currencies } from "../../static/currencies";
 
 /**
  * @typedef {object} CustomRule

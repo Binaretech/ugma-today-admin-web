@@ -7,12 +7,15 @@ import createCostInputs from './createCostInputs';
 import styles from './CreateCost.module.css';
 import { useXhr } from '../../utils/xhr/hook';
 import requests from '../../utils/xhr/requests';
+import { useDispatch } from 'react-redux';
+import cleanErrors, { setErrors } from '../../redux/actions/requestActions';
 
 function CreateCost() {
 
-    const manager = useDataManager();
+    const manager = useDataManager({ currency: 0 });
     const [loading, setLoading] = useState(false);
     const [send] = useXhr(requests.cost.store);
+    const dispatch = useDispatch();
 
     function submit() {
         console.log('submit', manager.getErrors());
@@ -22,10 +25,13 @@ function CreateCost() {
         send({ body: manager.getData() })
             .then((response) => {
                 manager.cleanData();
+                manager.setValue('currency', 0);
                 manager.cleanErrors();
                 setLoading(false);
+                dispatch(cleanErrors());
             })
             .catch((response) => {
+                dispatch(setErrors(response));
                 setLoading(false);
             });
     }
