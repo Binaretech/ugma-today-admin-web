@@ -10,6 +10,7 @@ export const defaultOptions = {
         'Accept': 'application/json',
     },
     params: {},
+    useToken: true,
     responseType: 'json',
     redirectUnauthorized: true,
     showErrorSnackbar: false,

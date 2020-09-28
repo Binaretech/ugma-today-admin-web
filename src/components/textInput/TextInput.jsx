@@ -30,6 +30,10 @@ function TextInput(props) {
   const inputRef = useRef(null);
 
   useEffect(() => {
+    if (!validate(inputRef.current.value, true) && props.setError) props.setError(props.name, inputRef.current);
+  }, [validate, props]);
+
+  useEffect(() => {
     inputRef.current.value = props.defaultValue ?? '';
   }, [props.defaultValue]);
 
@@ -47,7 +51,15 @@ function TextInput(props) {
     if (props.setValue) {
       props.setValue(name, value);
     }
-    if (!validate(value) && props.setError) props.setError(name, inputRef.current);
+
+    if (!validate(value) && props.setError)
+      props.setError(name, inputRef.current);
+    else
+      props.setError(name, false);
+  }
+
+  function onFocus() {
+    if (!validate(inputRef.current.value) && props.setError) props.setError(props.name, inputRef.current);
   }
 
   function formatProps() {
@@ -63,6 +75,7 @@ function TextInput(props) {
       helperText: errorMessage || '',
       defaultValue: props.defaultValue,
       defaultChecked: props.defaultChecked,
+      onFocus,
     };
   }
 

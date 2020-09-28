@@ -41,7 +41,6 @@ const currencies = [
  * @param {Props} props
  */
 export default (data) => {
-    console.log(data);
     return [
         [
             {
@@ -60,7 +59,7 @@ export default (data) => {
                 props: {
                     name: 'comment',
                     label: trans('words.comment'),
-                    rules: ['required', 'string', 'min:4', 'max:128'],
+                    rules: ['nullable', 'string', 'min:4', 'max:128'],
                     defaultValue: data?.comment,
                 }
             }

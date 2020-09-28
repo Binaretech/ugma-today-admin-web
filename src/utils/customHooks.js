@@ -21,6 +21,7 @@ import cleanErrors from "../redux/actions/requestActions";
  * @prop {function()} cleanErrors
  * @prop {function() => bool} hasErrors
  * @prop {function(string) => any} getError
+ * @prop {function() => any} getErrors
  * 
  * @param {{}} initialData 
  * @returns {Handler}
@@ -55,9 +56,10 @@ export function useDataManager(initialData = {}) {
     }
 
     function hasErrors() {
-        for (const error of errors.current) {
-            if (error) {
-                error.focus();
+        for (const key in errors.current) {
+            if (errors.current[key] && errors.current[key].focus) {
+                console.log(errors.current[key]);
+                errors.current[key].focus();
                 return true;
             };
         }
@@ -69,6 +71,10 @@ export function useDataManager(initialData = {}) {
         return errors.current[key] ? true : false;
     }
 
+    function getErrors() {
+        return errors.current;
+    }
+
     const manager = {
         setValue,
         setError,
@@ -78,6 +84,7 @@ export function useDataManager(initialData = {}) {
         cleanErrors,
         hasErrors,
         getError,
+        getErrors,
     };
 
     return manager;
@@ -94,7 +101,7 @@ export function useDataManager(initialData = {}) {
 export function useValidator(rules = []) {
     const [validationError, setvalidationError] = useState('');
 
-    function validate(value) {
+    function validate(value, omitMessage = false) {
         for (const rule of rules) {
             if (typeof rule === 'object' && rule.validation && !rule.validation(value)) {
                 setvalidationError(rule.message);
@@ -109,7 +116,7 @@ export function useValidator(rules = []) {
 
                 if (rules.includes('number')) message = message.replace(/caracteres/, '');
 
-                setvalidationError(message);
+                if (!omitMessage) setvalidationError(message);
                 return false;
             }
         }
