@@ -14,6 +14,7 @@ import { setLogin } from '../../redux/actions/sessionActions';
 import { useHistory } from 'react-router-dom';
 import paths from '../../routes/paths';
 import { setErrors } from '../../redux/actions/requestActions';
+import { useDataManager } from '../../utils/customHooks';
 
 const inputValues =
   process.env.REACT_APP_ENV === 'local'
@@ -27,34 +28,32 @@ const inputValues =
     };
 
 function Login() {
+
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });
   const history = useHistory();
+  const manager = useDataManager(inputValues);
 
   const onSubmit = () => {
     setLoading(true);
 
     send({
       body: {
-        ...inputValues,
+        ...manager.getData(),
       }
     }).then((response) => {
       setLoading(false);
-      dispatch(setLogin(response));
+      dispatch(setLogin(response?.data));
       history.push(paths.home);
     }).catch((response) => {
       setLoading(false);
       dispatch(setErrors(response));
       dispatch(snackbarMessage(
-        response?.data?.message ||
+        response?.message ||
         trans('Components.snackbar.errorMessage')
       ));
     });
-  };
-
-  function onChange({ target: { name, value } }) {
-    inputValues[name] = value;
   };
 
   return (
@@ -66,7 +65,8 @@ function Login() {
             name="username"
             variant="outlined"
             value={inputValues.username}
-            onChange={onChange}
+            setValue={manager.setValue}
+            setError={manager.setError}
           />
           <TextInput
             label={trans('words.password')}
@@ -74,7 +74,8 @@ function Login() {
             type="password"
             variant="outlined"
             value={inputValues.password}
-            onChange={onChange}
+            setValue={manager.setValue}
+            setError={manager.setError}
           />
           <Button variant="contained" onClick={onSubmit}>
             {trans('Screens.Login.loginButton')}
