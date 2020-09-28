@@ -14,7 +14,7 @@ function Root({ children }) {
 
     useEffect(() => {
         const data = loadUserData();
-        if (data) {
+        if (data?.token) {
             dispatch(setUserData(data));
             return;
         }
