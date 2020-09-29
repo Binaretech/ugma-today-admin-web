@@ -5,10 +5,13 @@ export default {
 
   //    C
   connectionError: 'Error de conexión',
-  comment: 'Commentario',
+  comment: 'Comentario',
   currency: 'Moneda',
 
   //    D
+
+  //    E
+  edit: 'Editar',
 
   //    F
 
@@ -17,7 +20,7 @@ export default {
   //    H
 
   //    I
-
+  id: 'ID',
   //    J
 
   //    K
@@ -30,9 +33,11 @@ export default {
   name: 'Nombre',
 
   //    O
+  of: 'De',
 
   //    P
   password: 'Contraseña',
+  page: 'Página',
   price: 'Precio',
 
   //    Q
