@@ -4,7 +4,7 @@ import configureStore from '../../redux/store';
 import { Provider } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 
-const TextInputWithProvider = () => (
+const InputWithProvider = () => (
   <Provider store={configureStore()}>
     <Input name="Example" value="" onChange={() => { }} label="Example" />
   </Provider>
@@ -12,8 +12,7 @@ const TextInputWithProvider = () => (
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
+    '& .MuiSelect-root': {
       width: '25ch',
     },
   },
@@ -51,8 +50,8 @@ export const SelectWithProvider = () => {
 };
 
 export default {
-  title: 'TextInput',
+  title: 'Input',
   component: Input,
 };
 
-export const NormalTexTInput = () => <TextInputWithProvider />;
+export const NormalInput = () => <InputWithProvider />;

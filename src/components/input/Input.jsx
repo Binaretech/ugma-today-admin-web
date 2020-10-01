@@ -26,7 +26,7 @@ import { useState } from 'react';
  * 
  * @param {Props} props 
  */
-function TextInput(props) {
+function Input(props) {
 
     const [value, setValue] = useState(props.defaultValue);
     const [validationError, validate] = useValidator(props.rules);
@@ -112,11 +112,11 @@ function TextInput(props) {
 }
 
 
-TextInput.defaultProps = {
+Input.defaultProps = {
     variant: 'outlined',
     type: 'text',
     defaultValue: '',
     options: [],
 };
 
-export default TextInput;
+export default Input;

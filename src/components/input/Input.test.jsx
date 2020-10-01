@@ -1,9 +1,6 @@
 import React from 'react';
 import Input from './Input';
 import { render, screen } from '../../utils/test-utils';
-import configureStore from '../../redux/store';
-import { Provider } from 'react-redux';
-import renderer from 'react-test-renderer';
 import { createStore } from 'redux';
 
 const name = 'input',
@@ -21,21 +18,13 @@ const InputComponent = (props) => (
   />
 );
 
-const TextInputWithProvider = () => (
-  <Provider store={configureStore()}>
-    <InputComponent />
-  </Provider>
-);
+test('should snapshot Input Component', () => {
+  const InputRenderer = render(<InputComponent />);
 
-const TextInputRenderer = renderer.create(<TextInputWithProvider />);
-
-test('should snapshot TextInput Component', () => {
-  const tree = TextInputRenderer.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(InputRenderer).toMatchSnapshot();
 });
 
-test('should render TextInput', async () => {
+test('should render Input', async () => {
   const { findAllByRole } = render(<InputComponent />);
 
   const inputsComponents = await findAllByRole('generic');
@@ -43,7 +32,7 @@ test('should render TextInput', async () => {
   expect(inputsComponents[0]).toHaveTextContent(label);
 });
 
-test('should get TextInput type = text', async () => {
+test('should get Input type = text', async () => {
   const { findByText } = render(<InputComponent />);
 
   const input = await findByText('', {
@@ -68,11 +57,25 @@ test('should render error', async () => {
   expect(await findByText(errorMessage)).toBeInTheDocument();
 });
 
-test('should render TextInput with password type', async () => {
+test('should render Input with password type', async () => {
   render(<InputComponent type="password" />);
 
   const input = await screen.findByText('', {
     selector: 'input',
   });
   expect(input.getAttribute('type')).toBe('password');
+});
+
+test('should render Select input', async () => {
+  const element = render(
+    <Input
+      label="test"
+      select
+      options={[
+        { label: "option", value: "option" }
+      ]}
+    />
+  );
+
+  expect(element).toMatchSnapshot();
 });

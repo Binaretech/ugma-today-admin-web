@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
-import TextInput from '../../components/textInput/TextInput';
+import Input from '../../components/input/Input';
 
 import apiEndpoints from '../../apiEndpoints';
 import { useDispatch } from 'react-redux';
@@ -54,7 +54,7 @@ function Login() {
     <div className={styles.container}>
       {(loading && <Loader fullscreen />) || (
         <form className={styles.form}>
-          <TextInput
+          <Input
             label={trans('words.user')}
             name="username"
             variant="outlined"
@@ -62,7 +62,7 @@ function Login() {
             setValue={manager.setValue}
             setError={manager.setError}
           />
-          <TextInput
+          <Input
             label={trans('words.password')}
             name="password"
             type="password"
