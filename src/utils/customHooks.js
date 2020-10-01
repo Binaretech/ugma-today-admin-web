@@ -58,7 +58,6 @@ export function useDataManager(initialData = {}) {
     function hasErrors() {
         for (const key in errors.current) {
             if (errors.current[key] && errors.current[key].focus) {
-                console.log(errors.current[key]);
                 errors.current[key].focus();
                 return true;
             };

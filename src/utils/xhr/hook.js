@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { defaultOptions } from './xhrConfig';
 import appBaseUrl from '../../configs';
 import { useHistory } from "react-router-dom";
@@ -29,6 +29,13 @@ export function useXhr(params) {
     const history = useHistory();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.sessionReducer.token);
+
+    useEffect(() => {
+        const request = xhr.current;
+        return () => {
+            request.abort();
+        };
+    }, []);
 
     /**
      * 

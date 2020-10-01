@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -65,8 +66,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<LastPageIcon />
 				) : (
-					<FirstPageIcon />
-				)}
+						<FirstPageIcon />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleBackButtonClick}
@@ -76,8 +77,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<KeyboardArrowRight />
 				) : (
-					<KeyboardArrowLeft />
-				)}
+						<KeyboardArrowLeft />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleNextButtonClick}
@@ -87,8 +88,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<KeyboardArrowLeft />
 				) : (
-					<KeyboardArrowRight />
-				)}
+						<KeyboardArrowRight />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleLastPageButtonClick}
@@ -98,8 +99,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<FirstPageIcon />
 				) : (
-					<LastPageIcon />
-				)}
+						<LastPageIcon />
+					)}
 			</IconButton>
 		</div>
 	);
@@ -203,10 +204,10 @@ function ListCosts(props) {
 							</TableRow>
 						))
 					) : (
-						<TableRow>
-							<TableCell>No hay registros disponibles</TableCell>
-						</TableRow>
-					)}
+							<TableRow>
+								<TableCell>No hay registros disponibles</TableCell>
+							</TableRow>
+						)}
 				</TableBody>
 				<TableFooter>
 					<TableRow>
@@ -244,7 +245,7 @@ function ListCosts(props) {
 }
 
 ListCosts.defaultProps = {
-	onSelectedItem: () => {},
+	onSelectedItem: () => { },
 };
 
 export default ListCosts;

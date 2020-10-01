@@ -18,14 +18,13 @@ function CreateCost() {
     const dispatch = useDispatch();
 
     function submit() {
-        console.log('submit', manager.getErrors());
         if (manager.hasErrors()) return;
 
         setLoading(true);
         send({ body: manager.getData() })
             .then((response) => {
                 manager.cleanData();
-                manager.setValue('currency', 0);
+                manager.setValue('currency', '');
                 manager.cleanErrors();
                 setLoading(false);
                 dispatch(cleanErrors());

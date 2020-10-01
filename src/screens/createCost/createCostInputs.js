@@ -1,4 +1,4 @@
-import TextInput from "../../components/textInput/TextInput";
+import Input from "../../components/input/Input";
 import { trans } from "../../trans/trans";
 import { currencies } from "../../static/currencies";
 
@@ -26,7 +26,7 @@ export default (data) => {
     return [
         [
             {
-                type: TextInput,
+                type: Input,
                 props: {
                     name: 'name',
                     label: trans('words.name'),
@@ -37,7 +37,7 @@ export default (data) => {
         ],
         [
             {
-                type: TextInput,
+                type: Input,
                 props: {
                     name: 'comment',
                     label: trans('words.comment'),
@@ -48,20 +48,22 @@ export default (data) => {
         ],
         [
             {
-                type: TextInput,
+                type: Input,
                 props: {
                     name: 'currency',
                     className: 'price-input',
                     label: trans('words.currency'),
+                    displayEmpty: true,
+                    placeholder: trans('words.currency'),
                     select: true,
                     defaultValue: data?.currency ?
-                        currencies.find((currency) => currency.value === data.currency) : {},
+                        currencies.find((currency) => currency.value === data.currency).value : '',
                     options: currencies,
                     rules: ['required'],
                 }
             },
             {
-                type: TextInput,
+                type: Input,
                 props: {
                     name: 'price',
                     type: 'number',
