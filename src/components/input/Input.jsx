@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useValidator, useErrorMessage } from '../../utils/customHooks';
 import { MenuItem, Select, FormControl, InputLabel, FormHelperText } from '@material-ui/core';
@@ -31,10 +31,13 @@ function Input(props) {
     const [value, setValue] = useState(props.defaultValue);
     const [validationError, validate] = useValidator(props.rules);
     const errorMessage = useErrorMessage(props.name, [validationError]);
-    const inputRef = useRef(null);
 
     useEffect(() => {
-        if (!validate(value, value === props.defaultValue) && props.setError) props.setError(props.name, inputRef.current);
+        if (!validate(value, true) && props.setError) props.setError(props.name, focus);
+    }, []);
+
+    useEffect(() => {
+        if (!validate(value, value === props.defaultValue) && props.setError) props.setError(props.name, focus);
     }, [value]);
 
     useEffect(() => {
@@ -43,7 +46,6 @@ function Input(props) {
 
     function onChange(e) {
         const { target: { name, value } } = e;
-
         setValue(value);
 
         if (props.onChange) {
@@ -55,13 +57,17 @@ function Input(props) {
         }
 
         if (!validate(value) && props.setError)
-            props.setError(name, inputRef.current);
+            props.setError(name, focus);
         else
             props.setError(name, false);
     }
 
     function onFocus() {
-        if (!validate(inputRef.current.value) && props.setError) props.setError(props.name, inputRef.current);
+        if (!validate(value) && props.setError) props.setError(props.name, focus);
+    }
+
+    function focus() {
+        if (!validate(value) && props.setError) props.setError(props.name, focus);
     }
 
     function renderSelect() {
@@ -70,18 +76,21 @@ function Input(props) {
                 variant={props.variant}
                 error={!!errorMessage}
             >
-                {props.label && <InputLabel>{props.label}</InputLabel>}
+                {props.label && <InputLabel >{props.label}</InputLabel>}
                 <Select
                     name={props.name}
-                    label={props.label}
-                    placeholder={props.placeholder}
-                    inputRef={inputRef}
-                    onChange={onChange}
                     onFocus={onFocus}
                     value={value}
+                    label={props.label}
+                    onChange={onChange}
+                    variant={props.variant}
+                    placeholder={props.placeholder}
                     displayEmpty={props.displayEmpty}
                 >
 
+                    <MenuItem key="empty" value={null} disabled>
+                        {props.placeholder || ""}
+                    </MenuItem>
                     {
                         props.options.map(option => (
                             <MenuItem key={option.value} value={option.value}>
@@ -103,7 +112,6 @@ function Input(props) {
             type={props.type}
             label={props.label}
             helperText={errorMessage}
-            inputRef={inputRef}
             onChange={onChange}
             onFocus={onFocus}
             variant={props.variant}

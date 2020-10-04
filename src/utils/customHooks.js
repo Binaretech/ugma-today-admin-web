@@ -57,8 +57,8 @@ export function useDataManager(initialData = {}) {
 
     function hasErrors() {
         for (const key in errors.current) {
-            if (errors.current[key] && errors.current[key].focus) {
-                errors.current[key].focus();
+            if (errors.current[key]) {
+                errors.current[key]();
                 return true;
             };
         }
@@ -96,6 +96,7 @@ export function useDataManager(initialData = {}) {
  * @prop {function(any) => bool} validation
  * 
  * @param {Array<string|CustomRule>} rules 
+ * @returns {[string, function(any, boolean) => boolean]}
  */
 export function useValidator(rules = []) {
     const [validationError, setvalidationError] = useState('');

@@ -24,7 +24,6 @@ function CreateCost() {
         send({ body: manager.getData() })
             .then((response) => {
                 manager.cleanData();
-                manager.setValue('currency', '');
                 manager.cleanErrors();
                 setLoading(false);
                 dispatch(cleanErrors());

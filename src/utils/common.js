@@ -1,3 +1,8 @@
+/**
+ * Returns true if ```value``` has some content
+ * @param {any} value 
+ * @returns {boolean}
+ */
 export function hasContent(value) {
     if (value === undefined || value === null) return false;
     if (typeof value === 'string' && value === '') return false;

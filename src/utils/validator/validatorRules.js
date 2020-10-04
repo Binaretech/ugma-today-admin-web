@@ -1,6 +1,7 @@
 import { hasContent } from "../common";
 
 export function required(value) {
+    console.log(hasContent(value));
     return hasContent(value);
 }
 
