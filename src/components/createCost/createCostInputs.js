@@ -1,4 +1,4 @@
-import Input from "../../components/input/Input";
+import Input from "../input/Input";
 import { trans } from "../../trans/trans";
 import { currencies } from "../../static/currencies";
 

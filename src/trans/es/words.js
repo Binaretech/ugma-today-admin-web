@@ -1,11 +1,13 @@
 export default {
   //    A
   accept: 'Aceptar',
+  add: 'Añadir',
   //    B
 
   //    C
   connectionError: 'Error de conexión',
   comment: 'Comentario',
+  close: 'Cerrar',
   currency: 'Moneda',
 
   //    D

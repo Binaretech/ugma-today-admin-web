@@ -13,6 +13,7 @@ import {
 	TableRow,
 	Paper,
 	IconButton,
+	Button,
 } from '@material-ui/core';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -23,6 +24,7 @@ import BigNumber from 'bignumber.js';
 import apiEndpoints from '../../apiEndpoints';
 import { useXhr } from '../../utils/xhr/hook';
 import { trans } from '../../trans/trans';
+import CreateCost from '../../components/createCost/CreateCost';
 
 const useStyles1 = makeStyles((theme) => ({
 	root: {
@@ -113,11 +115,18 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 
-const useStyles2 = makeStyles({});
+const useStyles2 = makeStyles({
+	buttonContainer: {
+		display: 'flex',
+		padding: '1rem',
+		justifyContent: 'flex-end'
+	}
+});
 
 function ListCosts(props) {
 	const classes = useStyles2();
 	const [page, setPage] = useState(0);
+	const [open, setOpen] = useState(false);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [response, setResponse] = useState({});
 
@@ -145,102 +154,116 @@ function ListCosts(props) {
 		setPage(0);
 	};
 
+	function handleClose() {
+		setOpen(false);
+	}
+
+	function handleOpen() {
+		setOpen(true);
+	}
+
 	return (
-		<TableContainer component={Paper}>
-			<Table
-				className={classes.table}
-				aria-label="custom pagination table"
-			>
-				<TableHead>
-					<TableRow>
-						<TableCell align="center">
-							{trans('words.id')}
-						</TableCell>
-						<TableCell align="center">
-							{trans('words.name')}
-						</TableCell>
-						<TableCell align="center">
-							{trans('words.comment')}
-						</TableCell>
-						<TableCell align="center">
-							{trans('words.price')}
-						</TableCell>
-						<TableCell align="center">
-							{trans('words.currency')}
-						</TableCell>
-						<TableCell align="center">
-							{trans('words.edit')}
-						</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{response.ids?.length > 0 ? (
-						response.ids.map((id) => (
-							<TableRow key={id}>
-								<TableCell>{response.data[id].id}</TableCell>
-								<TableCell>{response.data[id].name}</TableCell>
-								<TableCell>
-									{response.data[id].comment}
-								</TableCell>
-								<TableCell>
-									{new BigNumber(
-										response.data[id].price
-									).toFormat()}
-								</TableCell>
-								<TableCell align="center">
-									{response.data[id].currencyName}
-								</TableCell>
-								<TableCell align="center">
-									<IconButton
-										onClick={() =>
-											props.onSelectedItem(
-												response.data[id]
-											)
-										}
-									>
-										<EditIcon />
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))
-					) : (
-							<TableRow>
-								<TableCell>No hay registros disponibles</TableCell>
-							</TableRow>
-						)}
-				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={[1, 3, 5, 10, 25]}
-							SelectProps={{
-								inputProps: { 'aria-label': 'rows per page' },
-								native: true,
-							}}
-							count={response.total || 0}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onChangePage={handleChangePage}
-							onChangeRowsPerPage={handleChangeRowsPerPage}
-							labelRowsPerPage={trans(
-								'Screens.ListCosts.rowsPerPage'
+		<div>
+			<CreateCost open={open} handleClose={handleClose} />
+			<div className={classes.buttonContainer}>
+				<Button variant="contained" color="primary" onClick={handleOpen}>{trans('words.add')}</Button>
+			</div>
+			<TableContainer component={Paper}>
+				<Table
+					className={classes.table}
+					aria-label="custom pagination table"
+				>
+					<TableHead>
+						<TableRow>
+							<TableCell align="center">
+								{trans('words.id')}
+							</TableCell>
+							<TableCell align="center">
+								{trans('words.name')}
+							</TableCell>
+							<TableCell align="center">
+								{trans('words.comment')}
+							</TableCell>
+							<TableCell align="center">
+								{trans('words.price')}
+							</TableCell>
+							<TableCell align="center">
+								{trans('words.currency')}
+							</TableCell>
+							<TableCell align="center">
+								{trans('words.edit')}
+							</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{response.ids?.length > 0 ? (
+							response.ids.map((id) => (
+								<TableRow key={id}>
+									<TableCell>{response.data[id].id}</TableCell>
+									<TableCell>{response.data[id].name}</TableCell>
+									<TableCell>
+										{response.data[id].comment}
+									</TableCell>
+									<TableCell>
+										{new BigNumber(
+											response.data[id].price
+										).toFormat()}
+									</TableCell>
+									<TableCell align="center">
+										{response.data[id].currencyName}
+									</TableCell>
+									<TableCell align="center">
+										<IconButton
+											onClick={() =>
+												props.onSelectedItem(
+													response.data[id]
+												)
+											}
+										>
+											<EditIcon />
+										</IconButton>
+									</TableCell>
+								</TableRow>
+							))
+						) : (
+								<TableRow>
+									<TableCell>No hay registros disponibles</TableCell>
+								</TableRow>
 							)}
-							labelDisplayedRows={({ from, to, count, page }) => {
-								return `${from}-${to} ${trans(
-									'words.of'
-								).toLocaleLowerCase()} ${count} ${trans(
-									'words.page'
-								)} ${page + 1}`;
-							}}
-							nextIconButtonProps={{
-								lastPage: response.last_page,
-							}}
-							ActionsComponent={TablePaginationActions}
-						/>
-					</TableRow>
-				</TableFooter>
-			</Table>
-		</TableContainer>
+					</TableBody>
+					<TableFooter>
+						<TableRow>
+							<TablePagination
+								rowsPerPageOptions={[1, 3, 5, 10, 25]}
+								SelectProps={{
+									inputProps: { 'aria-label': 'rows per page' },
+									native: true,
+								}}
+								count={response.total || 0}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onChangePage={handleChangePage}
+								onChangeRowsPerPage={handleChangeRowsPerPage}
+								labelRowsPerPage={trans(
+									'Screens.ListCosts.rowsPerPage'
+								)}
+								labelDisplayedRows={({ from, to, count, page }) => {
+									return `${from}-${to} ${trans(
+										'words.of'
+									).toLocaleLowerCase()} ${count} ${trans(
+										'words.page'
+									)} ${page + 1}`;
+								}}
+								nextIconButtonProps={{
+									lastPage: response.last_page,
+								}}
+								ActionsComponent={TablePaginationActions}
+							/>
+						</TableRow>
+					</TableFooter>
+				</Table>
+			</TableContainer>
+		</div>
 	);
 }
 

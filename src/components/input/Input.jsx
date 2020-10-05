@@ -87,10 +87,6 @@ function Input(props) {
                     placeholder={props.placeholder}
                     displayEmpty={props.displayEmpty}
                 >
-
-                    <MenuItem key="empty" value={null} disabled>
-                        {props.placeholder || ""}
-                    </MenuItem>
                     {
                         props.options.map(option => (
                             <MenuItem key={option.value} value={option.value}>
