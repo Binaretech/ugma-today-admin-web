@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case requestActions.SET_ERRORS:
       return {
         ...state,
-        errors: action.payload?.response?.data?.errors || {},
+        errors: action.payload?.errors || {},
       };
 
     case requestActions.CLEAN_ERRORS:
@@ -18,7 +18,14 @@ export default (state = initialState, action) => {
         message: '',
         errors: {},
       };
-
+    case requestActions.CLEAN_ERROR:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.key]: undefined,
+        }
+      };
     default:
       return state;
   }

@@ -1,12 +1,19 @@
 export default {
   //    A
-
+  accept: 'Aceptar',
+  add: 'Añadir',
   //    B
 
   //    C
   connectionError: 'Error de conexión',
+  comment: 'Comentario',
+  close: 'Cerrar',
+  currency: 'Moneda',
 
   //    D
+
+  //    E
+  edit: 'Editar',
 
   //    F
 
@@ -15,7 +22,7 @@ export default {
   //    H
 
   //    I
-
+  id: 'ID',
   //    J
 
   //    K
@@ -25,11 +32,15 @@ export default {
   //    M
 
   //    N
+  name: 'Nombre',
 
   //    O
+  of: 'De',
 
   //    P
   password: 'Contraseña',
+  page: 'Página',
+  price: 'Precio',
 
   //    Q
 

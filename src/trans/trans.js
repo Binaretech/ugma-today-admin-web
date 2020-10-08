@@ -8,7 +8,13 @@ const availableLanguages = {
 
 let language = 'es';
 
-export function trans(translation) {
+/**
+ * 
+ * @param {string} translation
+ * @param {object} attributes
+ * @returns {string} 
+ */
+export function trans(translation, attributes = {}) {
   let path = translation.split('.');
 
   let message = availableLanguages[language];
@@ -19,6 +25,11 @@ export function trans(translation) {
   }
 
   if (!message) return translation;
+
+  Object.keys(attributes).forEach((attr) => {
+    message = message.replace(`:${attr}`, attributes[attr]);
+  });
+
   return message;
 }
 

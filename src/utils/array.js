@@ -7,7 +7,7 @@ import { deepCloneObject, equalsObjects } from "./object";
  * @returns {Array<T>} 
  */
 export function deepCloneArray(array) {
-    let clone = []
+    let clone = [];
 
     for (let index = 0; index < array.length; index++) {
         if (Array.isArray(array[index])) {
@@ -47,4 +47,14 @@ export function equalsArrays(array1, array2) {
     }
 
     return true;
+}
+
+export function organizeMessage(errorMessages) {
+    let completeMessage = '';
+
+    errorMessages
+        .filter((error) => error !== '')
+        .map((error) => (completeMessage = completeMessage + error + '\n'));
+
+    return completeMessage;
 }

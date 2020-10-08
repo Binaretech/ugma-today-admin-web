@@ -5,6 +5,7 @@ export const requestActions = {
   LOADING: 'LOADING',
   SET_ERRORS: 'SET_ERRORS',
   CLEAN_ERRORS: 'CLEAN_ERRORS',
+  CLEAN_ERROR: 'CLEAN_ERROR',
 };
 
 export function request(
@@ -23,7 +24,7 @@ export function request(
           dispatch(
             snackbarMessage(
               response?.data?.message ||
-                trans('Components.snackbar.successMessage')
+              trans('Components.snackbar.successMessage')
             )
           );
         return dispatch({
@@ -36,7 +37,7 @@ export function request(
           dispatch(
             snackbarMessage(
               err?.response?.data?.message ||
-                trans('Components.snackbar.errorMessage')
+              trans('Components.snackbar.errorMessage')
             )
           );
         dispatch(setErrors(err));
@@ -58,5 +59,12 @@ export function setErrors(errors) {
 export default function cleanErrors() {
   return {
     type: requestActions.CLEAN_ERRORS,
+  };
+}
+
+export function cleanError(key) {
+  return {
+    type: requestActions.CLEAN_ERROR,
+    key
   };
 }

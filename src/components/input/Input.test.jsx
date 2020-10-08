@@ -1,9 +1,6 @@
 import React from 'react';
-import TextInput from './TextInput';
+import Input from './Input';
 import { render, screen } from '../../utils/test-utils';
-import configureStore from '../../redux/store';
-import { Provider } from 'react-redux';
-import renderer from 'react-test-renderer';
 import { createStore } from 'redux';
 
 const name = 'input',
@@ -11,8 +8,8 @@ const name = 'input',
   onChange = () => { },
   label = 'test input';
 
-const TextInputComponent = (props) => (
-  <TextInput
+const InputComponent = (props) => (
+  <Input
     name={name}
     value={value}
     onChange={onChange}
@@ -21,30 +18,22 @@ const TextInputComponent = (props) => (
   />
 );
 
-const TextInputWithProvider = () => (
-  <Provider store={configureStore()}>
-    <TextInputComponent />
-  </Provider>
-);
+test('should snapshot Input Component', () => {
+  const InputRenderer = render(<InputComponent />);
 
-const TextInputRenderer = renderer.create(<TextInputWithProvider />);
-
-test('should snapshot TextInput Component', () => {
-  const tree = TextInputRenderer.toJSON();
-
-  expect(tree).toMatchSnapshot();
+  expect(InputRenderer).toMatchSnapshot();
 });
 
-test('should render TextInput', async () => {
-  const { findAllByRole } = render(<TextInputComponent />);
+test('should render Input', async () => {
+  const { findAllByRole } = render(<InputComponent />);
 
   const inputsComponents = await findAllByRole('generic');
 
   expect(inputsComponents[0]).toHaveTextContent(label);
 });
 
-test('should get TextInput type = text', async () => {
-  const { findByText } = render(<TextInputComponent />);
+test('should get Input type = text', async () => {
+  const { findByText } = render(<InputComponent />);
 
   const input = await findByText('', {
     selector: 'input',
@@ -55,7 +44,7 @@ test('should get TextInput type = text', async () => {
 
 test('should render error', async () => {
   const errorMessage = 'Input error';
-  const { findByText } = render(<TextInputComponent />, {
+  const { findByText } = render(<InputComponent />, {
     store: createStore(() => ({
       requestReducer: {
         errors: {
@@ -68,11 +57,25 @@ test('should render error', async () => {
   expect(await findByText(errorMessage)).toBeInTheDocument();
 });
 
-test('should render TextInput with password type', async () => {
-  render(<TextInputComponent type="password" />);
+test('should render Input with password type', async () => {
+  render(<InputComponent type="password" />);
 
   const input = await screen.findByText('', {
     selector: 'input',
   });
   expect(input.getAttribute('type')).toBe('password');
+});
+
+test('should render Select input', async () => {
+  const element = render(
+    <Input
+      label="test"
+      select
+      options={[
+        { label: "option", value: "option" }
+      ]}
+    />
+  );
+
+  expect(element).toMatchSnapshot();
 });

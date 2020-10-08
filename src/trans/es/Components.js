@@ -9,10 +9,12 @@ export default {
   },
   drawer: {
     listPrices: 'Ver precios',
-    createPrice: 'Registrar nuevo precio',
   },
   scaffold: {
     title: 'Ugma Today Admin'
+  },
+  createCost: {
+    createPrice: 'Registrar nuevo precio',
   }
 };
 

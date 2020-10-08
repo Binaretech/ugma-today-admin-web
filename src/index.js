@@ -6,6 +6,12 @@ import { Provider } from 'react-redux';
 import createStore from './redux/store';
 import { snackbarMessage } from './redux/actions/snackbarActions';
 import { trans } from './trans/trans';
+import BigNumber from 'bignumber.js';
+
+BigNumber.set({
+	decimalSeparator: ',',
+	groupSeparator: '.',
+});
 
 const store = createStore();
 
