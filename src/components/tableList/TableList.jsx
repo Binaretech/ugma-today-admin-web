@@ -188,7 +188,7 @@ function TableList(props) {
 												)
 											}
 										>
-											<EditIcon />
+											{props.actionButtonIcon}
 										</IconButton>
 									</TableCell>
 								)}
@@ -242,6 +242,7 @@ TableList.defaultProps = {
 	bodyValues: () => {},
 	actionButton: false,
 	actionButtonTitle: 'edit',
+	actionButtonIcon: <div></div>,
 };
 
 TableList.propTypes = {
@@ -250,6 +251,7 @@ TableList.propTypes = {
 	bodyValues: PropTypes.func.isRequired,
 	actionButton: PropTypes.bool,
 	actionButtonTitle: PropTypes.string,
+	actionButtonIcon: PropTypes.elementType,
 	onSelectedItem: PropTypes.func,
 };
 

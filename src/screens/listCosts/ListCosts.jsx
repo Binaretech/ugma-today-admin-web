@@ -5,12 +5,10 @@ import {
 } from '@material-ui/core';
 import TableList from '../../components/tableList/TableList';
 import CreateCost from '../../components/createCost/CreateCost';
-// import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from '@material-ui/icons/Edit';
 import BigNumber from 'bignumber.js';
 import apiEndpoints from '../../apiEndpoints';
 import { trans } from '../../trans/trans';
-
-	
 
 const useStyles2 = makeStyles({
 	buttonContainer: {
@@ -65,6 +63,7 @@ function ListCosts() {
 			bodyValues={bodyValues}
 			actionButton
 			actionButtonTitle="edit"
+			actionButtonIcon={<EditIcon />}
 		/>
 		</div>
 	);
