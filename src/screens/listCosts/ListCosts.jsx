@@ -34,9 +34,11 @@ function headerKeys() {
 function ListCosts() {
 	const classes = useStyles2();
 	const [open, setOpen] = useState(false);
+	const [requestAgain, setRequestAgain] = useState(false)
 
 	function handleClose() {
 		setOpen(false);
+		setRequestAgain(!requestAgain);
 	}
 
 	function handleOpen() {
@@ -59,6 +61,7 @@ function ListCosts() {
 				'currencyName',
 				'modifiedBy',
 			]}
+			requestAgain={requestAgain}
 			customHeaderKeys={headerKeys}
 			bodyValues={bodyValues}
 			actionButton

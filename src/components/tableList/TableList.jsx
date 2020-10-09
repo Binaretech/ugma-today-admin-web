@@ -17,7 +17,6 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import EditIcon from '@material-ui/icons/Edit';
 import { useXhr } from '../../utils/xhr/hook';
 import { trans } from '../../trans/trans';
 
@@ -130,7 +129,7 @@ function TableList(props) {
 			})
 			.catch(console.error);
 		// eslint-disable-next-line
-	}, [page, rowsPerPage]);
+	}, [page, rowsPerPage, props.requestAgain]);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -243,10 +242,12 @@ TableList.defaultProps = {
 	actionButton: false,
 	actionButtonTitle: 'edit',
 	actionButtonIcon: <div></div>,
+	requestAgain: false,
 };
 
 TableList.propTypes = {
 	apiEndpoint: PropTypes.string.isRequired,
+	requestAgain: PropTypes.bool,
 	headerKeys: PropTypes.array.isRequired,
 	bodyValues: PropTypes.func.isRequired,
 	actionButton: PropTypes.bool,

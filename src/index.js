@@ -10,7 +10,8 @@ import BigNumber from 'bignumber.js';
 
 BigNumber.set({
 	decimalSeparator: ',',
-	groupSeparator: '.',
+    groupSeparator: '.',
+    DECIMAL_PLACES: 2,
 });
 
 const store = createStore();
