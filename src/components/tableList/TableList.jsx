@@ -252,7 +252,7 @@ TableList.propTypes = {
 	bodyValues: PropTypes.func.isRequired,
 	actionButton: PropTypes.bool,
 	actionButtonTitle: PropTypes.string,
-	actionButtonIcon: PropTypes.elementType,
+	actionButtonIcon: PropTypes.element,
 	onSelectedItem: PropTypes.func,
 };
 
