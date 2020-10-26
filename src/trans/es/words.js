@@ -1,65 +1,68 @@
 export default {
-  //    A
-  accept: 'Aceptar',
-  add: 'Añadir',
-  //    B
+	//    A
+	accept: 'Aceptar',
+	add: 'Añadir',
+	//    B
 
-  //    C
-  connectionError: 'Error de conexión',
-  comment: 'Comentario',
-  close: 'Cerrar',
-  currency: 'Moneda',
+	//    D
+	//    C
+	connectionError: 'Error de conexión',
+	comment: 'Comentario',
+	currency: 'Moneda',
+	close: 'Cerrar',
 
-  //    D
+	//    D
 
-  //    E
-  edit: 'Editar',
+	//    E
+	edit: 'Editar',
 
-  //    F
+	//    F
 
-  //    G
+	//    G
 
-  //    H
+	//    H
 
-  //    I
-  id: 'ID',
-  //    J
+	//    I
+	id: 'ID',
+	//    J
 
-  //    K
+	//    K
 
-  //    L
+	//    L
 
-  //    M
+	//    M
+	modifiedBy: 'Modificado por',
 
-  //    N
-  name: 'Nombre',
-  //    O
-  of: 'De',
+	//    N
+	name: 'Nombre',
 
-  //    P
-  password: 'Contraseña',
-  page: 'Página',
-  price: 'Precio',
+	//    O
+	of: 'De',
 
-  //    Q
+	//    P
+	password: 'Contraseña',
+	page: 'Página',
+	price: 'Precio',
 
-  //    R
-  reload: 'Recargar',
-  //    S
+	//    Q
 
-  //    T
+	//    R
+	reload: 'Recargar',
+	//    S
 
-  //    U
-  user: 'Usuario',
+	//    T
 
-  //    V
+	//    U
+	user: 'Usuario',
 
-  //    W
-  word: 'Palabra',
+	//    V
 
-  //    X
+	//    W
+	word: 'Palabra',
 
-  //    Y
+	//    X
 
-  //    Z
+	//    Y
+
+	//    Z
 };
