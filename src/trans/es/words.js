@@ -33,7 +33,6 @@ export default {
 
   //    N
   name: 'Nombre',
-
   //    O
   of: 'De',
 

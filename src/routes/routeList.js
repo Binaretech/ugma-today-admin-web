@@ -6,10 +6,10 @@ const NotFound = lazy(() => import('../screens/notFound/NotFound'));
 const Home = lazy(() => import('../screens/home/Home'));
 const ListCosts = lazy(() => import('../screens/listCosts/ListCosts'));
 
-export default (id) => {
+export default () => {
 	return [
 		...publicRoutes,
-		...(id ? privateRoutes : []),
+		...privateRoutes,
 		{
 			path: '*',
 			component: NotFound,
