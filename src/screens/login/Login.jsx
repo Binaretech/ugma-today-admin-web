@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Loader from '../../components/loader/Loader';
 import Input from '../../components/input/Input';
 
 import apiEndpoints from '../../apiEndpoints';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { trans } from '../../trans/trans';
 import { snackbarMessage } from '../../redux/actions/snackbarActions';
 
@@ -28,6 +28,12 @@ function Login() {
   const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });
   const history = useHistory();
   const manager = useDataManager(inputValues);
+
+  const isLogged = useSelector((state) => !!state.sessionReducer?.id);
+
+  useEffect(() => {
+    history.push(paths.home);
+  }, [history, isLogged]);
 
   const onSubmit = () => {
     setLoading(true);

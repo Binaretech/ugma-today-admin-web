@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Scaffold from '../scaffold/Scaffold';
@@ -18,10 +19,13 @@ function Root({ children }) {
             dispatch(setLogin(data));
             return;
         }
-        history.push(paths.login);
-    }, [dispatch, history]);
+    }, []);
 
-    return userId ? (
+    useEffect(() => {
+        if (!userId) return history.push(paths.login);
+    }, [userId]);
+
+    return !!userId ? (
         <Scaffold>
             {children}
         </Scaffold>

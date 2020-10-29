@@ -4,7 +4,7 @@ export default {
 	add: 'Añadir',
 	//    B
 
-  //    D
+	//    D
 	//    C
 	connectionError: 'Error de conexión',
 	comment: 'Comentario',
