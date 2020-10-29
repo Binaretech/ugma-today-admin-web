@@ -29,10 +29,11 @@ function Login() {
   const history = useHistory();
   const manager = useDataManager(inputValues);
 
-  const isLogged = useSelector((state) => !!state.sessionReducer?.id);
+  const isLogged = useSelector((state) => state.sessionReducer?.id);
 
   useEffect(() => {
-    history.push(paths.home);
+    if (isLogged)
+      history.push(paths.home);
   }, [history, isLogged]);
 
   const onSubmit = () => {
