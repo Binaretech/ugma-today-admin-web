@@ -17,6 +17,8 @@ import { cleanError } from "../redux/actions/requestActions";
  * @prop {function(string, any)} setError
  * @prop {function(string) => any} getValue
  * @prop {function() => any} getData
+ * @prop {function(any) => void} setData
+ * @prop {function() => object} getData
  * @prop {function()} cleanData
  * @prop {function()} cleanErrors
  * @prop {function() => bool} hasErrors
@@ -48,11 +50,15 @@ export function useDataManager(initialData = {}) {
     }
 
     function cleanData() {
-        return data.current = {};
+        data.current = {};
     }
 
     function cleanErrors() {
-        return errors.current = {};
+        errors.current = {};
+    }
+
+    function setData(newData) {
+        data.current = newData;
     }
 
     function hasErrors() {
@@ -84,6 +90,7 @@ export function useDataManager(initialData = {}) {
         hasErrors,
         getError,
         getErrors,
+        setData,
     };
 
     return manager;

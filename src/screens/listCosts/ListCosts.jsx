@@ -4,7 +4,7 @@ import {
 	Button,
 } from '@material-ui/core';
 import TableList from '../../components/tableList/TableList';
-import CreateCost from '../../components/createCost/CreateCost';
+import SaveCost from '../../components/saveCost/SaveCost';
 import EditIcon from '@material-ui/icons/Edit';
 import BigNumber from 'bignumber.js';
 import apiEndpoints from '../../apiEndpoints';
@@ -34,7 +34,8 @@ function headerKeys() {
 function ListCosts() {
 	const classes = useStyles2();
 	const [open, setOpen] = useState(false);
-	const [requestAgain, setRequestAgain] = useState(false)
+	const [item, setItem] = useState({});
+	const [requestAgain, setRequestAgain] = useState(false);
 
 	function handleClose() {
 		setOpen(false);
@@ -45,29 +46,37 @@ function ListCosts() {
 		setOpen(true);
 	}
 
+	function setUpdate(item) {
+		setItem(item);
+		setOpen(true);
+	}
+
 	return (
 		<div>
-			<CreateCost open={open} handleClose={handleClose} />
+			<SaveCost item={item} open={open} handleClose={handleClose} />
 			<div className={classes.buttonContainer}>
-				<Button variant="contained" color="primary" onClick={handleOpen}>{trans('words.add')}</Button>
+				<Button variant="contained" color="primary" onClick={handleOpen}>
+					{trans('words.add')}
+				</Button>
 			</div>
 			<TableList
-			apiEndpoint={apiEndpoints.createCost}
-			headerKeys={[
-				'id',
-				'name',
-				'comment',
-				'price',
-				'currencyName',
-				'modifiedBy',
-			]}
-			requestAgain={requestAgain}
-			customHeaderKeys={headerKeys}
-			bodyValues={bodyValues}
-			actionButton
-			actionButtonTitle="edit"
-			actionButtonIcon={<EditIcon />}
-		/>
+				apiEndpoint={apiEndpoints.SaveCost}
+				onSelectedItem={setUpdate}
+				headerKeys={[
+					'id',
+					'name',
+					'comment',
+					'price',
+					'currencyName',
+					'modifiedBy',
+				]}
+				requestAgain={requestAgain}
+				customHeaderKeys={headerKeys}
+				bodyValues={bodyValues}
+				actionButton
+				actionButtonTitle="edit"
+				actionButtonIcon={<EditIcon />}
+			/>
 		</div>
 	);
 }

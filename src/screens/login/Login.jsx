@@ -33,7 +33,7 @@ function Login() {
 
   useEffect(() => {
     if (isLogged)
-      history.push(paths.home);
+      history.goBack();
   }, [history, isLogged]);
 
   const onSubmit = () => {

@@ -8,28 +8,29 @@ import { Provider } from 'react-redux';
 import BigNumber from 'bignumber.js';
 import { trans } from '../../trans/trans';
 
-const TableListComponentWithProvider = ({children}) => (
+const TableListComponentWithProvider = ({ children }) => (
 	<Provider store={store()}>
 		{children}
 	</Provider>
 );
 const TableListComponent = renderer.create(<TableListComponentWithProvider >
 	<TableList
-			apiEndpoint={apiEndpoints.createCost}
-			headerKeys={[
-				'id',
-				'name',
-				'comment',
-				'price',
-				'currencyName',
-				'modifiedBy',
-			]}
-			customHeaderKeys={headerKeys}
-			bodyValues={bodyValues}
-			actionButton
-			actionButtonTitle="edit"
-			actionButtonIcon={<EditIcon />}
-		/>
+		apiEndpoint={apiEndpoints.SaveCost}
+		onClick={(item) => console.log(item)}
+		headerKeys={[
+			'id',
+			'name',
+			'comment',
+			'price',
+			'currencyName',
+			'modifiedBy',
+		]}
+		customHeaderKeys={headerKeys}
+		bodyValues={bodyValues}
+		actionButton
+		actionButtonTitle="edit"
+		actionButtonIcon={<EditIcon />}
+	/>
 </TableListComponentWithProvider>);
 
 test('should snapshot TableList Component', () => {
@@ -51,4 +52,3 @@ function headerKeys() {
 	};
 }
 
-		

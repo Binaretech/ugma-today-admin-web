@@ -1,6 +1,6 @@
 export default {
     home: '/',
     login: '/login',
-    createCost: '/create-cost',
+    SaveCost: '/create-cost',
     costList: '/cost-list',
 }

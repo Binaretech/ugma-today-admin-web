@@ -62,8 +62,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<LastPageIcon />
 				) : (
-					<FirstPageIcon />
-				)}
+						<FirstPageIcon />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleBackButtonClick}
@@ -73,8 +73,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<KeyboardArrowRight />
 				) : (
-					<KeyboardArrowLeft />
-				)}
+						<KeyboardArrowLeft />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleNextButtonClick}
@@ -84,8 +84,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<KeyboardArrowLeft />
 				) : (
-					<KeyboardArrowRight />
-				)}
+						<KeyboardArrowRight />
+					)}
 			</IconButton>
 			<IconButton
 				onClick={handleLastPageButtonClick}
@@ -95,8 +95,8 @@ function TablePaginationActions(props) {
 				{theme.direction === 'rtl' ? (
 					<FirstPageIcon />
 				) : (
-					<LastPageIcon />
-				)}
+						<LastPageIcon />
+					)}
 			</IconButton>
 		</div>
 	);
@@ -170,11 +170,11 @@ function TableList(props) {
 									<TableCell align="center" key={key}>
 										{props.bodyValues()[key]
 											? props
-													.bodyValues()
-													[key](
-														response.data[id][key],
-														response.data[id]
-													)
+												.bodyValues()
+											[key](
+												response.data[id][key],
+												response.data[id]
+											)
 											: response.data[id][key]}
 									</TableCell>
 								))}
@@ -183,7 +183,7 @@ function TableList(props) {
 										<IconButton
 											onClick={() =>
 												props.onSelectedItem(
-													response.data[id]
+													{ ...response.data[id] }
 												)
 											}
 										>
@@ -194,10 +194,10 @@ function TableList(props) {
 							</TableRow>
 						))
 					) : (
-						<TableRow>
-							<TableCell>No hay registros disponibles</TableCell>
-						</TableRow>
-					)}
+							<TableRow>
+								<TableCell>No hay registros disponibles</TableCell>
+							</TableRow>
+						)}
 				</TableBody>
 				<TableFooter>
 					<TableRow>
@@ -235,10 +235,10 @@ function TableList(props) {
 }
 
 TableList.defaultProps = {
-	onSelectedItem: () => {},
+	onSelectedItem: () => { },
 	apiEndpoint: '',
 	headerKeys: [],
-	bodyValues: () => {},
+	bodyValues: () => { },
 	actionButton: false,
 	actionButtonTitle: 'edit',
 	actionButtonIcon: <div></div>,
