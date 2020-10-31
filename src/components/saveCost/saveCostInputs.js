@@ -56,8 +56,8 @@ export default (data) => {
                     displayEmpty: true,
                     placeholder: trans('words.currency'),
                     select: true,
-                    defaultValue: data?.currency ?
-                        currencies.find((currency) => currency.value === data.currency).value : '',
+                    defaultValue: data?.currency >= 0 ?
+                        currencies.find((currency) => currency.value === data.currency)?.value : '',
                     options: currencies,
                     rules: ['required'],
                 }

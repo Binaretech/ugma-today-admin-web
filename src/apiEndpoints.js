@@ -1,4 +1,4 @@
 export default {
   login: '/admin/login',
-  createCost: '/admin/cost',
+  SaveCost: '/admin/cost',
 };

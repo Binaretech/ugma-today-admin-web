@@ -13,8 +13,9 @@ export default {
   scaffold: {
     title: 'Ugma Today Admin'
   },
-  createCost: {
+  SaveCost: {
     createPrice: 'Registrar nuevo precio',
+    updatePrice: 'Actualizar precio',
   }
 };
 

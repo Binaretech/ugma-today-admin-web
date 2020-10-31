@@ -3,8 +3,8 @@ import Loader from '../loader/Loader';
 import { Button, Dialog, Slide, DialogTitle, DialogActions } from '@material-ui/core';
 import { trans } from '../../trans/trans';
 import { useDataManager } from '../../utils/customHooks';
-import createCostInputs from './createCostInputs';
-import styles from './CreateCost.module.css';
+import saveCostInputs from './saveCostInputs';
+import styles from './SaveCost.module.css';
 import { useXhr } from '../../utils/xhr/hook';
 import requests from '../../utils/xhr/requests';
 import { useDispatch } from 'react-redux';
@@ -17,27 +17,31 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 /**
  * @typedef {object} Props
  * @prop {boolean} open
+ * @prop {object} item
  * @prop {function() => void} handleClose
  * 
  * @param {Props} props 
  */
-function CreateCost(props) {
+function SaveCost(props) {
 
-    const manager = useDataManager({ currency: 0 });
+    const manager = useDataManager();
     const [loading, setLoading] = useState(false);
-    const [send] = useXhr(requests.cost.store);
+    const [send] = useXhr(!!props.item ? requests.cost.update : requests.cost.store);
     const dispatch = useDispatch();
 
     function submit() {
         if (manager.hasErrors()) return;
 
         setLoading(true);
-        send({ body: manager.getData() })
+        send({
+            body: manager.getData(), params: { id: props.item && props.item.id }
+        })
             .then((response) => {
                 manager.cleanData();
                 manager.cleanErrors();
                 setLoading(false);
                 dispatch(cleanErrors());
+                if (props.item && props.handleClose) props.handleClose();
             })
             .catch((response) => {
                 dispatch(setErrors(response));
@@ -51,7 +55,9 @@ function CreateCost(props) {
             TransitionComponent={Transition}
             fullWidth
         >
-            <DialogTitle>{trans('Components.createCost.createPrice')}</DialogTitle>
+            <DialogTitle>
+                {props.item ? trans('Components.SaveCost.updatePrice') : trans('Components.SaveCost.createPrice')}
+            </DialogTitle>
 
             <div>
                 {
@@ -60,7 +66,7 @@ function CreateCost(props) {
                 <div>
                     <form autoComplete="off" className={styles.form}>
                         {
-                            createCostInputs(manager.getData())
+                            saveCostInputs(props.item)
                                 .map((row, index) => (
                                     <div className={styles.row} key={index}>
                                         {
@@ -94,4 +100,4 @@ function CreateCost(props) {
     );
 }
 
-export default CreateCost;
+export default SaveCost;
