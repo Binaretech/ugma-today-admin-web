@@ -17,74 +17,82 @@ import { setErrors } from '../../redux/actions/requestActions';
 import { useDataManager } from '../../utils/customHooks';
 
 function Login() {
+	const inputValues =
+		process.env.REACT_APP_ENV === 'local'
+			? {
+					username: 'admin',
+					password: 'secret',
+			  }
+			: {};
 
-  const inputValues = process.env.REACT_APP_ENV === 'local' ? {
-    username: 'mari_conazo',
-    password: 'secret',
-  } : {};
+	const [loading, setLoading] = useState(false);
+	const dispatch = useDispatch();
+	const [send] = useXhr({
+		url: apiEndpoints.login,
+		method: 'POST',
+		showErrorSnackbar: true,
+	});
+	const history = useHistory();
+	const manager = useDataManager(inputValues);
 
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const [send,] = useXhr({ url: apiEndpoints.login, method: "POST", showErrorSnackbar: true });
-  const history = useHistory();
-  const manager = useDataManager(inputValues);
+	const isLogged = useSelector((state) => state.sessionReducer?.id);
 
-  const isLogged = useSelector((state) => state.sessionReducer?.id);
+	useEffect(() => {
+		if (isLogged) history.goBack();
+	}, [history, isLogged]);
 
-  useEffect(() => {
-    if (isLogged)
-      history.goBack();
-  }, [history, isLogged]);
+	const onSubmit = () => {
+		setLoading(true);
 
-  const onSubmit = () => {
-    setLoading(true);
+		send({
+			body: {
+				...manager.getData(),
+			},
+		})
+			.then((response) => {
+				setLoading(false);
+				dispatch(setLogin(response?.data));
+				history.push(paths.home);
+			})
+			.catch((response) => {
+				setLoading(false);
+				dispatch(setErrors(response));
+				dispatch(
+					snackbarMessage(
+						response?.message || trans('Components.snackbar.errorMessage')
+					)
+				);
+			});
+	};
 
-    send({
-      body: {
-        ...manager.getData(),
-      }
-    }).then((response) => {
-      setLoading(false);
-      dispatch(setLogin(response?.data));
-      history.push(paths.home);
-    }).catch((response) => {
-      setLoading(false);
-      dispatch(setErrors(response));
-      dispatch(snackbarMessage(
-        response?.message ||
-        trans('Components.snackbar.errorMessage')
-      ));
-    });
-  };
-
-  return (
-    <div className={styles.container}>
-      {(loading && <Loader fullscreen />) || (
-        <form className={styles.form}>
-          <Input
-            label={trans('words.user')}
-            name="username"
-            variant="outlined"
-            value={inputValues.username}
-            setValue={manager.setValue}
-            setError={manager.setError}
-          />
-          <Input
-            label={trans('words.password')}
-            name="password"
-            type="password"
-            variant="outlined"
-            value={inputValues.password}
-            setValue={manager.setValue}
-            setError={manager.setError}
-          />
-          <Button variant="contained" onClick={onSubmit}>
-            {trans('Screens.Login.loginButton')}
-          </Button>
-        </form>
-      )}
-    </div>
-  );
+	return (
+		<div className={styles.container}>
+			{(loading && <Loader fullscreen />) || (
+				<form className={styles.form}>
+					<Input
+						label={trans('words.user')}
+						name="username"
+						variant="outlined"
+						value={inputValues.username}
+						setValue={manager.setValue}
+						setError={manager.setError}
+					/>
+					<Input
+						label={trans('words.password')}
+						name="password"
+						type="password"
+						variant="outlined"
+						value={inputValues.password}
+						setValue={manager.setValue}
+						setError={manager.setError}
+					/>
+					<Button variant="contained" onClick={onSubmit}>
+						{trans('Screens.Login.loginButton')}
+					</Button>
+				</form>
+			)}
+		</div>
+	);
 }
 
 export default Login;
