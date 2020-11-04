@@ -6,13 +6,14 @@ export default {
 
 	//    D
 	//    C
+	cancel: 'cancelar',
 	connectionError: 'Error de conexión',
 	comment: 'Comentario',
 	currency: 'Moneda',
 	close: 'Cerrar',
 
 	//    D
-
+	delete: 'eliminar',
 	//    E
 	edit: 'Editar',
 

@@ -16,6 +16,8 @@ export default {
   SaveCost: {
     createPrice: 'Registrar nuevo precio',
     updatePrice: 'Actualizar precio',
-  }
+    deleteConfirmationTitle: 'Eliminar costo.',
+    deleteConfirmation: '¿Desea elimiar el costo seleccionado?',
+  },
 };
 

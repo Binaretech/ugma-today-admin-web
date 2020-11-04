@@ -1,6 +1,6 @@
 import React from 'react';
 import { trans } from '../../trans/trans';
-import { render, screen, fireEvent } from '../../utils/test-utils';
+import { render, screen, fireEvent, within } from '../../utils/test-utils';
 import SaveCost from './SaveCost';
 
 test('should render dialog', () => {
@@ -49,4 +49,19 @@ test('should update item', () => {
     expect(screen.getByDisplayValue(testItem.price)).toBeInTheDocument();
 
     fireEvent.click(getByText(trans('words.accept')));
+});
+
+
+test('should delete item', () => {
+    const testItem = {
+        name: "Administración",
+        comment: "Dormouse, without considering at all this grand procession, came THE KING AND QUEEN OF HEARTS. Alice was soon submitted to by.",
+        price: "1251.22",
+    };
+
+    const { getByText, getByRole } = render(<SaveCost item={testItem} open />);
+
+    fireEvent.click(getByText(trans('words.delete')));
+    expect(getByText(trans('Components.SaveCost.deleteConfirmationTitle')));
+    // TODO: IMPROVE TESTS
 });
