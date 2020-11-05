@@ -11,6 +11,12 @@ export default {
             url: '/admin/cost/:id',
             showErrorSnackbar: true,
             showSucessSnackbar: true,
+        },
+        destroy: {
+            method: 'DELETE',
+            url: '/admin/cost/:id',
+            showErrorSnackbar: true,
+            showSucessSnackbar: true,
         }
     }
 }
