@@ -34,11 +34,12 @@ function headerKeys() {
 function ListCosts() {
 	const classes = useStyles2();
 	const [open, setOpen] = useState(false);
-	const [item, setItem] = useState({});
+	const [item, setItem] = useState(null);
 	const [requestAgain, setRequestAgain] = useState(false);
 
 	function handleClose() {
 		setOpen(false);
+		setItem(null);
 		setRequestAgain(!requestAgain);
 	}
 
@@ -53,7 +54,7 @@ function ListCosts() {
 
 	return (
 		<div>
-			<SaveCost item={item} open={open} handleClose={handleClose} />
+			{open && <SaveCost item={item} open handleClose={handleClose} />}
 			<div className={classes.buttonContainer}>
 				<Button variant="contained" color="primary" onClick={handleOpen}>
 					{trans('words.add')}

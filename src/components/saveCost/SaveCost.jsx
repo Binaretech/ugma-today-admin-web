@@ -25,6 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function SaveCost(props) {
 
     const [openDelete, setOpenDelete] = useState(false);
+    const [open, setOpen] = useState(true);
     const manager = useDataManager();
     const [loading, setLoading] = useState(false);
     const [send] = useXhr(!!props.item ? requests.cost.update : requests.cost.store);
@@ -42,7 +43,7 @@ function SaveCost(props) {
                 manager.cleanErrors();
                 setLoading(false);
                 dispatch(cleanErrors());
-                if (props.item && props.handleClose) props.handleClose();
+                if (!props.item) handleClose();
             })
             .catch((response) => {
                 dispatch(setErrors(response));
@@ -55,11 +56,11 @@ function SaveCost(props) {
         closeDeleteDialog();
         send({
             ...requests.cost.destroy,
-           params: { id: props.item && props.item.id }
+            params: { id: props.item && props.item.id }
         })
             .then((response) => {
                 setLoading(false);
-                if (props.handleClose) props.handleClose();
+                handleClose();
             })
             .catch((response) => {
                 setLoading(false);
@@ -73,7 +74,16 @@ function SaveCost(props) {
     function openDeleteDialog() {
         setOpenDelete(true);
     }
-    
+
+    function handleClose() {
+        setOpen(false);
+        let id = setTimeout(() => {
+            props.handleClose();
+            clearTimeout(id);
+        }, 50);
+
+    }
+
     function deleteConfirmation() {
         return (
             <Dialog
@@ -107,7 +117,7 @@ function SaveCost(props) {
             {props.item && deleteConfirmation()}
 
             <Dialog
-                open={props.open}
+                open={open}
                 TransitionComponent={Transition}
                 fullWidth
             >
@@ -153,7 +163,7 @@ function SaveCost(props) {
                             {trans('words.delete')}
                         </Button>
                     }
-                    <Button onClick={props.handleClose} color="primary">
+                    <Button onClick={handleClose} color="primary">
                         {trans('words.close')}
                     </Button>
                 </DialogActions>
