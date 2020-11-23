@@ -19,11 +19,15 @@ export function useLogin(manager) {
     method: 'POST',
     showErrorSnackbar: true,
   });
+
   const isLogged = useSelector((state) => state.sessionReducer?.id);
 
-  useEffect(() => {
-    if (isLogged) history.goBack();
-  }, [history, isLogged]);
+  useEffect(redirectOnNotLogged, [isLogged]);
+
+  function redirectOnNotLogged() {
+    if (isLogged)
+      history.length > 1 ? history.goBack() : history.push(paths.home);
+  }
 
   function onSubmit() {
     setLoading(true);

@@ -1,4 +1,4 @@
-import { sessionActions } from '../actions/sessionActions';
+import {sessionActions} from '../actions/sessionActions';
 
 const initialState = {};
 
@@ -10,6 +10,7 @@ export default function sessionReducer(state = initialState, action) {
         loading: true,
       };
     case sessionActions.LOGIN:
+      console.trace();
       return {
         ...state,
         ...action.payload,
