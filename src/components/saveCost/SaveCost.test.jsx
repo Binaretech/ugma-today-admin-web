@@ -16,6 +16,7 @@ test('should render dialog without item', () => {
     getByText(trans('Components.SaveCost.createPrice')),
   ).toBeInTheDocument();
 });
+
 test('should render dialog with item', () => {
   const testItem = {
     name: 'Administración',
