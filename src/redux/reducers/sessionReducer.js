@@ -1,4 +1,4 @@
-import { sessionActions } from '../actions/sessionActions';
+import {sessionActions} from '../actions/sessionActions';
 
 const initialState = {};
 

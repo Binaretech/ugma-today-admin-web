@@ -1,13 +1,13 @@
-import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useXhr} from '../../utils/xhr/hook';
-import {useHistory} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useXhr } from '../../utils/xhr/hook';
+import { useHistory } from 'react-router-dom';
 import apiEndpoints from '../../apiEndpoints';
-import {setLogin} from '../../redux/actions/sessionActions';
+import { setLogin } from '../../redux/actions/sessionActions';
 import paths from '../../routes/paths';
-import {setErrors} from '../../redux/actions/requestActions';
-import {snackbarMessage} from '../../redux/actions/snackbarActions';
-import {trans} from '../../trans/trans';
+import { setErrors } from '../../redux/actions/requestActions';
+import { snackbarMessage } from '../../redux/actions/snackbarActions';
+import { trans } from '../../trans/trans';
 
 export function useLogin(manager) {
   const [loading, setLoading] = useState(false);
@@ -19,11 +19,15 @@ export function useLogin(manager) {
     method: 'POST',
     showErrorSnackbar: true,
   });
+
   const isLogged = useSelector((state) => state.sessionReducer?.id);
 
-  useEffect(() => {
-    if (isLogged) history.goBack();
-  }, [history, isLogged]);
+  useEffect(redirectOnNotLogged, [isLogged]);
+
+  function redirectOnNotLogged() {
+    if (isLogged)
+      history.length > 1 ? history.goBack() : history.push(paths.home);
+  }
 
   function onSubmit() {
     setLoading(true);

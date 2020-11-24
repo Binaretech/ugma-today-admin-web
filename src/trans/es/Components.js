@@ -9,9 +9,10 @@ export default {
   },
   drawer: {
     listPrices: 'Ver precios',
+    home: 'Inicio',
   },
   scaffold: {
-    title: 'Ugma Today Admin'
+    title: 'Ugma Today Admin',
   },
   SaveCost: {
     createPrice: 'Registrar nuevo precio',
@@ -19,5 +20,10 @@ export default {
     deleteConfirmationTitle: 'Eliminar costo.',
     deleteConfirmation: '¿Desea eliminar el costo seleccionado?',
   },
+  StatisticCard: {
+    news: 'Noticias',
+    posts: 'Publicaciones',
+    admins: 'Administradores',
+    users: 'Usuarios',
+  },
 };
-
