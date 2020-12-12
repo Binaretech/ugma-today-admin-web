@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useXhr } from '../../utils/xhr/hook';
-import { useHistory } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useXhr} from '../../utils/xhr/hook';
+import {useHistory} from 'react-router-dom';
 import apiEndpoints from '../../apiEndpoints';
-import { setLogin } from '../../redux/actions/sessionActions';
+import {setLogin} from '../../redux/actions/sessionActions';
 import paths from '../../routes/paths';
-import { setErrors } from '../../redux/actions/requestActions';
-import { snackbarMessage } from '../../redux/actions/snackbarActions';
-import { trans } from '../../trans/trans';
+import {setErrors} from '../../redux/actions/requestActions';
+import {snackbarMessage} from '../../redux/actions/snackbarActions';
+import {trans} from '../../trans/trans';
 
 export function useLogin(manager) {
   const [loading, setLoading] = useState(false);
@@ -22,9 +22,10 @@ export function useLogin(manager) {
 
   const isLogged = useSelector((state) => state.sessionReducer?.id);
 
-  useEffect(redirectOnNotLogged, [isLogged]);
+  // eslint-disable-next-line
+  useEffect(redirectOnLogged, [isLogged]);
 
-  function redirectOnNotLogged() {
+  function redirectOnLogged() {
     if (isLogged)
       history.length > 1 ? history.goBack() : history.push(paths.home);
   }
@@ -39,7 +40,7 @@ export function useLogin(manager) {
       .then((response) => {
         setLoading(false);
         dispatch(setLogin(response?.data));
-        history.push(paths.home);
+        // history.push(paths.home);
       })
       .catch((response) => {
         setLoading(false);
