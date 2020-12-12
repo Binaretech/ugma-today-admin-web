@@ -40,7 +40,6 @@ export function useLogin(manager) {
       .then((response) => {
         setLoading(false);
         dispatch(setLogin(response?.data));
-        // history.push(paths.home);
       })
       .catch((response) => {
         setLoading(false);
