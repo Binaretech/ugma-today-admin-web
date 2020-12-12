@@ -82,7 +82,6 @@ export function useXhr(params) {
         }
         if (xhr.current.status === 401 && options.redirectUnauthorized) {
           dispatch(setLogin());
-          // history.push(paths.login);
         }
 
         return reject({...response, status: xhr.current.status});

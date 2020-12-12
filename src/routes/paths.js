@@ -1,6 +1,8 @@
-export default {
-    home: '/',
-    login: '/login',
-    SaveCost: '/create-cost',
-    costList: '/cost-list',
-}
+const paths = {
+  home: '/',
+  login: '/login',
+  SaveCost: '/create-cost',
+  costList: '/cost-list',
+};
+
+export default paths;

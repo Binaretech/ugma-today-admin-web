@@ -1,4 +1,4 @@
-export default {
+const words = {
   //    A
 
   //    B
@@ -50,3 +50,5 @@ export default {
 
   //    Z
 };
+
+export default words;

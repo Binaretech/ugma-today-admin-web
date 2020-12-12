@@ -9,6 +9,7 @@ export function useFetchStatistics() {
   const [statistics, setStatistics] = useState([]);
   const [send] = useXhr(requests.statistics.summary);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(fetchStatistics, []);
 
   function fetchStatistics() {

@@ -3,7 +3,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import HomeIcon from '@material-ui/icons/Home';
 import paths from '../../routes/paths';
 
-export default [
+const drawerContent = [
   [
     {
       title: trans('Components.drawer.home'),
@@ -17,3 +17,5 @@ export default [
     },
   ],
 ];
+
+export default drawerContent;

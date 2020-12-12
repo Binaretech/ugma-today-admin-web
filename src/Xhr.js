@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import appBaseUrl from './configs';
-import { loadUserData } from './utils/functions';
+import {loadUserData} from './utils/functions';
 
 export default class Xhr {
   constructor(endpoint, method = 'GET', options = {}) {
@@ -21,9 +21,11 @@ export default class Xhr {
     this.send = this.send.bind(this);
   }
 
-  static initConfigs(token) {
+  static initConfigs() {
     Axios.defaults.baseURL = appBaseUrl();
-    Axios.defaults.headers.common['Authorization'] = `Bearer ${loadUserData()?.token}`;
+    Axios.defaults.headers.common['Authorization'] = `Bearer ${
+      loadUserData()?.token
+    }`;
   }
 
   send() {
@@ -33,7 +35,7 @@ export default class Xhr {
           resolve({
             ...response.data,
             status: response.status,
-          })
+          }),
         )
         .catch((error) => reject(error));
     });
