@@ -1,4 +1,4 @@
-export default {
+const components = {
   componentName: {
     message: 'Mensaje a mostrar',
   },
@@ -27,3 +27,5 @@ export default {
     users: 'Usuarios',
   },
 };
+
+export default components;

@@ -1,4 +1,4 @@
-export default {
+const requests = {
   cost: {
     store: {
       method: 'POST',
@@ -27,3 +27,5 @@ export default {
     },
   },
 };
+
+export default requests;
