@@ -17,18 +17,18 @@ export function error(error) {
   };
 }
 
-
-export function setLogin(payload) {
-  localStorage.setItem('utd', JSON.stringify(payload || {}));
+export function setLogin(payload = {}) {
+  localStorage.setItem('utd', JSON.stringify(payload));
   return {
     type: sessionActions.LOGIN,
-    payload
+    payload,
   };
 }
 
 export function setUserData(payload) {
   return {
     type: sessionActions.LOGIN,
-    payload
+    payload,
   };
 }
+

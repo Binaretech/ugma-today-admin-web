@@ -11,7 +11,6 @@ export default function sessionReducer(state = initialState, action) {
       };
     case sessionActions.LOGIN:
       return {
-        ...state,
         ...action.payload,
         loading: false,
       };
