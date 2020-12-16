@@ -19,6 +19,7 @@ import drawerContent from './drawerContent';
 import { ListItemLink } from '../listItemLink/ListItemLink';
 import { useLogout } from '../../utils/customHooks';
 import Link from '@material-ui/core/Link';
+import styles from './Scaffold.module.css';
 
 const drawerWidth = 240;
 
@@ -131,7 +132,7 @@ export default function Scaffold(props) {
 						{trans('Components.scaffold.title')}
 					</Typography>
 				</Toolbar>
-				<div className={classes.linksContainer}>
+				<div className={classes.linksContainer} id={styles.linksContainer}>
 					<Link component="button" onClick={() => logout()}>
 						{trans('Components.scaffold.logout')}
 					</Link>
@@ -157,16 +158,18 @@ export default function Scaffold(props) {
 				</div>
 				<Divider />
 				<List>
-					{drawerContent.map((list, index) => (
+					{drawerContent().map((content, index) => (
 						<React.Fragment key={index}>
-							{list.map((content) => (
-								<ListItemLink key={content.title} to={content.to}>
-									<ListItemIcon>
-										<content.icon.type />
-									</ListItemIcon>
-									<ListItemText primary={content.title} />
-								</ListItemLink>
-							))}
+							<ListItemLink
+								key={content.title}
+								to={content.to}
+								action={content.action}
+							>
+								<ListItemIcon>
+									<content.icon.type />
+								</ListItemIcon>
+								<ListItemText primary={content.title} />
+							</ListItemLink>
 							<Divider />
 						</React.Fragment>
 					))}

@@ -209,7 +209,7 @@ export function useLogout() {
 		})
 			.then(() => {
 				dispatch(setLogout());
-				history.push(paths.home);
+				history.push(paths.login);
 			})
 			.catch((err) => {
 				console.error('Error: ', err);
@@ -221,4 +221,3 @@ export function useLogout() {
 			});
 	};
 }
-
