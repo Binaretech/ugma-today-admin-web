@@ -1,10 +1,9 @@
 import React from 'react';
-import {Avatar, Card} from '@material-ui/core';
+import {Avatar, IconButton, Card} from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import ReactMarkdown from 'react-markdown';
 import styles from './styles.module.css';
 import dayjs from 'dayjs';
-import {useHistory} from 'react-router-dom';
-import paths, {formatPath} from '../../routes/paths';
 import LikesAndComments from '../../components/likesAndComments';
 
 /**
@@ -13,15 +12,9 @@ import LikesAndComments from '../../components/likesAndComments';
  *
  * @param {{news: Post}} props
  */
-export default function NewsTile({news}) {
-  const history = useHistory();
-
-  function onClick() {
-    history.push(formatPath(paths.newsDetails, {id: news?.id}));
-  }
-
+export default function NewsTile({news, onSelectedItem}) {
   return (
-    <Card className={styles.card} onClick={onClick}>
+    <Card className={styles.card}>
       <div className={styles.title}>
         <h2>{news?.title}</h2>
       </div>
@@ -40,6 +33,11 @@ export default function NewsTile({news}) {
           likesCount={news?.likes}
           commentsCount={news?.comments}
         />
+        <div>
+          <IconButton onClick={() => onSelectedItem(news)}>
+            <EditIcon />
+          </IconButton>
+        </div>
         <div>
           <p className={styles.timestamp}>
             {dayjs(news?.createdAt)?.fromNow()}

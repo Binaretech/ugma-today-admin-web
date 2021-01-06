@@ -19,7 +19,7 @@ function Home() {
       {loading && <Loader />}
       <GridList cols={2}>
         {statistics.map((statistic) => (
-          <GridListTile>
+          <GridListTile key={statistic?.name}>
             <StatisticCard
               title={trans(`Components.StatisticCard.${statistic?.name}`)}
               content={statistic?.count}

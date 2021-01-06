@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useXhr} from '../../utils/xhr/hook';
 import requests from '../../utils/xhr/requests';
 
-export function useFetchNews() {
+export function useFetchNews(requestAgain = false) {
   const [currentPage, setCurrentPage] = useState(1);
   const [send] = useXhr({
     ...requests.news.index,
@@ -34,7 +34,7 @@ export function useFetchNews() {
         setLoading(false);
       });
     //eslint-disable-next-line
-  }, [currentPage]);
+  }, [currentPage, requestAgain]);
 
   return [loading, posts, currentPage, setCurrentPage, totalPages];
 }

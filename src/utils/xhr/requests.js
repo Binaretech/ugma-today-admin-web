@@ -26,6 +26,21 @@ const requests = {
       showErrorSnackbar: true,
     },
   },
+  news: {
+    index: {
+      method: 'GET',
+      url: '/news',
+      showErrorSnackbar: true,
+      queryParams: {
+        withTimestamps: true,
+      },
+    },
+    store: {
+      method: 'POST',
+      url: '/admin/news',
+      showErrorSnackbar: true,
+    },
+  },
 };
 
 export default requests;

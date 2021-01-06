@@ -4,6 +4,20 @@
   align-items: center;
 }
 
+.addNewsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resultsContainer {
+  margin-top: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70vh;
+  width: 100%;
+}
+
 .loader {
   display: flex;
   justify-content: center;
