@@ -16,6 +16,7 @@ const words = {
   delete: 'Eliminar',
   //    E
   edit: 'Editar',
+  emptyResults: 'No hay resultados disponibles.',
 
   //    F
 
@@ -52,6 +53,7 @@ const words = {
   //    S
 
   //    T
+  title: 'Título',
 
   //    U
   user: 'Usuario',
