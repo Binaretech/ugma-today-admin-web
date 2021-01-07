@@ -12,7 +12,7 @@
 
 .resultsContainer {
   margin-top: 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 70vh;
   width: 100%;
