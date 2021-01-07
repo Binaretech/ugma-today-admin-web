@@ -1,69 +1,73 @@
-export default {
-	//    A
-	accept: 'Aceptar',
-	add: 'Añadir',
-	//    B
+const words = {
+  //    A
+  accept: 'Aceptar',
+  add: 'Añadir',
+  //    B
 
-	//    D
-	//    C
-	cancel: 'Cancelar',
-	connectionError: 'Error de conexión',
-	comment: 'Comentario',
-	currency: 'Moneda',
-	close: 'Cerrar',
+  //    D
+  //    C
+  cancel: 'Cancelar',
+  connectionError: 'Error de conexión',
+  comment: 'Comentario',
+  currency: 'Moneda',
+  close: 'Cerrar',
 
-	//    D
-	delete: 'Eliminar',
-	//    E
-	edit: 'Editar',
+  //    D
+  delete: 'Eliminar',
+  //    E
+  edit: 'Editar',
+  emptyResults: 'No hay resultados disponibles.',
 
-	//    F
+  //    F
 
-	//    G
+  //    G
 
-	//    H
+  //    H
 
-	//    I
-	id: 'ID',
-	//    J
+  //    I
+  id: 'ID',
+  //    J
 
-	//    K
+  //    K
 
-	//    L
+  //    L
 
-	//    M
-	modifiedBy: 'Modificado por',
+  //    M
+  modifiedBy: 'Modificado por',
 
-	//    N
-	name: 'Nombre',
+  //    N
+  name: 'Nombre',
 
-	//    O
-	of: 'De',
+  //    O
+  of: 'De',
 
-	//    P
-	password: 'Contraseña',
-	page: 'Página',
-	price: 'Precio',
+  //    P
+  password: 'Contraseña',
+  page: 'Página',
+  price: 'Precio',
 
-	//    Q
+  //    Q
 
-	//    R
-	reload: 'Recargar',
-	//    S
+  //    R
+  reload: 'Recargar',
+  //    S
 
-	//    T
+  //    T
+  title: 'Título',
 
-	//    U
-	user: 'Usuario',
+  //    U
+  user: 'Usuario',
 
-	//    V
+  //    V
 
-	//    W
-	word: 'Palabra',
+  //    W
+  word: 'Palabra',
 
-	//    X
+  //    X
 
-	//    Y
+  //    Y
 
-	//    Z
+  //    Z
 };
+
+export default words;

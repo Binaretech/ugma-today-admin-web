@@ -1,0 +1,47 @@
+.card {
+  padding: 1rem;
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.scores {
+  display: flex;
+  align-items: center;
+}
+
+.score {
+  display: flex;
+  align-items: center;
+  padding: 0 0.3rem;
+}
+
+.score p {
+  padding: 0 0.5rem;
+}
+
+.title {
+  text-align: center;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  justify-content: flex-end;
+}
+
+.author .name {
+  padding: 0 1rem;
+  font-size: 1.1rem;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  text-align: right;
+}

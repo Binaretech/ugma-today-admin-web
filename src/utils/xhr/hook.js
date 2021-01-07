@@ -1,8 +1,6 @@
 import {useRef, useEffect} from 'react';
 import {defaultOptions} from './xhrConfig';
 import appBaseUrl from '../../configs';
-import {useHistory} from 'react-router-dom';
-import paths from '../../routes/paths';
 import {useDispatch, useSelector} from 'react-redux';
 import {snackbarMessage} from '../../redux/actions/snackbarActions';
 import {trans} from '../../trans/trans';
@@ -27,7 +25,6 @@ export function useXhr(params) {
   params = {...defaultOptions, ...params};
 
   const xhr = useRef(new XMLHttpRequest());
-  const history = useHistory();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.sessionReducer.token);
 
@@ -82,7 +79,6 @@ export function useXhr(params) {
         }
         if (xhr.current.status === 401 && options.redirectUnauthorized) {
           dispatch(setLogin());
-          // history.push(paths.login);
         }
 
         return reject({...response, status: xhr.current.status});
@@ -119,7 +115,7 @@ export function useXhr(params) {
  *
  * @param {Params} params
  */
-function formatUrl({useBaseUrl, url, params}) {
+function formatUrl({useBaseUrl, url, params, queryParams}) {
   if (useBaseUrl) {
     url = `${appBaseUrl()}${url}`;
   }
@@ -127,6 +123,12 @@ function formatUrl({useBaseUrl, url, params}) {
   Object.keys(params || {}).forEach((param) => {
     url = url.replace(`:${param}`, params[param]);
   });
+
+  const query = Object.keys(queryParams || {}).map((query) => {
+    return `${query}=${queryParams[query]}`;
+  });
+
+  if (query.length > 0) url = `${url}?${query.join('&')}`;
 
   return url;
 }

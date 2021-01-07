@@ -10,7 +10,6 @@ function Root({children}) {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(userId);
     if (!userId) return history.push(paths.login);
   }, [userId]);
 

@@ -1,4 +1,7 @@
-export default {
-  login: '/admin/login',
-  SaveCost: '/admin/cost',
+const apiEndpoints = {
+	login: '/admin/login',
+	SaveCost: '/admin/cost',
+	logout: '/logout',
 };
+
+export default apiEndpoints;

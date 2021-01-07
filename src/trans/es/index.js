@@ -4,10 +4,12 @@ import words from './words';
 import validation from './validation';
 import errors from './errors';
 
-export default {
+const es = {
   Components,
   Screens,
   words,
   validation,
   errors,
 };
+
+export default es;
