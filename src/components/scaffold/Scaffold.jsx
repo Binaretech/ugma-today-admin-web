@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -17,90 +17,94 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {trans} from '../../trans/trans';
 import drawerContent from './drawerContent';
 import {ListItemLink} from '../listItemLink/ListItemLink';
-import {useLogout} from '../../utils/customHooks';
+import {useLogout, useWindowSize} from '../../utils/customHooks';
 import Link from '@material-ui/core/Link';
 import styles from './Scaffold.module.css';
 
 const drawerWidth = 240;
+const drawerSizeChange = 630;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  linksContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingRight: '10px',
-    minWidth: 190,
-    width: '100%',
-    justifyContent: 'flex-end',
-    '& button': {
-      color: 'white',
-      fontSize: '15px',
+const useStyles = (windowWidth) =>
+  makeStyles((theme) => ({
+    root: {
+      display: 'flex',
     },
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-    marginTop: '55px',
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-}));
+    appBar: {
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    linksContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      paddingRight: '10px',
+      minWidth: 190,
+      width: '100%',
+      justifyContent: 'flex-end',
+      '& button': {
+        color: 'white',
+        fontSize: '15px',
+      },
+    },
+    appBarShift: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    hide: {
+      display: 'none',
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    drawerHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      padding: theme.spacing(0, 1),
+      // necessary for content to be below app bar
+      ...theme.mixins.toolbar,
+      justifyContent: 'flex-end',
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      ...(windowWidth > drawerSizeChange ? {marginLeft: -drawerWidth} : {}),
+      marginTop: '55px',
+    },
+    contentShift: {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    },
+  }));
 
 export default function Scaffold(props) {
-  const classes = useStyles();
+  const [width] = useWindowSize();
+  const classes = useStyles(width)();
   const theme = useTheme();
   const logout = useLogout();
-  const [open, setOpen] = React.useState(
-    window.innerWidth >= 630 ? true : false,
+  const [open, setOpen] = useState(width >= drawerSizeChange ? true : false);
+  const [drawerVariant, setDrawerVariant] = useState(
+    width > drawerSizeChange ? 'persistent' : 'temporary',
   );
 
   const handleDrawerOpen = () => {
@@ -110,6 +114,10 @@ export default function Scaffold(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    setDrawerVariant(width > 630 ? 'persistent' : 'temporary');
+  }, [width]);
 
   return (
     <div className={classes.root}>
@@ -140,9 +148,10 @@ export default function Scaffold(props) {
       </AppBar>
       <Drawer
         className={classes.drawer}
-        variant="persistent"
+        variant={drawerVariant}
         anchor="left"
         open={open}
+        onClose={() => setOpen(false)}
         classes={{
           paper: classes.drawerPaper,
         }}>
