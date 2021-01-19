@@ -40,6 +40,16 @@ const requests = {
       url: '/admin/news',
       showErrorSnackbar: true,
     },
+    update: {
+      method: 'PUT',
+      url: '/admin/news/:id',
+      showErrorSnackbar: true,
+    },
+    destroy: {
+      method: 'DELETE',
+      url: '/admin/news/:id',
+      showErrorSnackbar: true,
+    },
   },
 };
 

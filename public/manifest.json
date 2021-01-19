@@ -1,7 +1,7 @@
 {
   "short_name": "UT Admin",
   "name": "Admin de UGMAToday App",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "icons": [
     {
@@ -10,12 +10,17 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "128.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "128x128"
     },
     {
-      "src": "logo512.png",
+      "src": "256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

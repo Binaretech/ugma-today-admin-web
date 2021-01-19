@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import MarkDown from 'react-markdown';
 import styles from './styles.module.css';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
@@ -7,8 +7,10 @@ import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import {Divider, IconButton} from '@material-ui/core';
 import {useTextEdit} from './functions.js';
+import {useWindowSize} from '../../utils/customHooks';
 
 function MarkDownEditor(props) {
+  const mobile = 640;
   const [
     value,
     textarea,
@@ -19,12 +21,19 @@ function MarkDownEditor(props) {
     onUnOrderedList,
   ] = useTextEdit(props.value);
   const preview = useRef();
+  const [width] = useWindowSize();
+  const [dividerOrientation, setDividerOrientation] = useState(
+    width > mobile ? 'vertical' : 'horizontal',
+  );
 
   useEffect(() => {
     props?.onChange?.(value);
     // eslint-disable-next-line
   }, [value]);
 
+  useEffect(() => {
+    setDividerOrientation(width > mobile ? 'vertical' : 'horizontal');
+  }, [width]);
   function onScroll(event) {
     preview.current.scrollTop = event.target.scrollTop;
   }
@@ -59,7 +68,7 @@ function MarkDownEditor(props) {
           onFocus={props.onFocus}
           onBlur={props.onBlur}
         />
-        <Divider orientation="vertical" />
+        <Divider orientation={dividerOrientation} />
         <div
           aria-label="markdown-preview"
           className={styles.preview}
