@@ -14,6 +14,7 @@ import MarkdownEditor from '../../components/markdownEditor';
 import {trans} from '../../trans/trans';
 import styles from './SaveNews.module.css';
 import {useNewsHandling, useHandleClose} from './functions.js';
+import {useWindowSize} from '../../utils/customHooks';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -29,6 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
  */
 function SaveNews(props) {
   const [open, handleClose] = useHandleClose(props.handleClose);
+  const [width] = useWindowSize();
 
   const [
     manager,
@@ -75,7 +77,11 @@ function SaveNews(props) {
     <>
       {props.item && deleteConfirmation()}
 
-      <Dialog open={open} TransitionComponent={Transition} fullWidth>
+      <Dialog
+        fullScreen={width > 640 ? false : true}
+        open={open}
+        TransitionComponent={Transition}
+        fullWidth>
         <DialogTitle>
           {props.item
             ? trans('Components.SaveNews.updateNews')

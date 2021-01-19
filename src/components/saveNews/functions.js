@@ -7,6 +7,9 @@ import requests from '../../utils/xhr/requests';
 
 export function useNewsHandling(id, handleClose) {
   const manager = useDataManager();
+
+  if (id) requests.news.update.params = {id};
+
   const [send] = useXhr(id ? requests.news.update : requests.news.store);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -19,7 +22,7 @@ export function useNewsHandling(id, handleClose) {
     send({
       body: {
         ...manager.getData(),
-        ...(!id ? {type: 2} : {}),
+        ...{type: 2},
       },
       params: {id},
     })
@@ -40,7 +43,7 @@ export function useNewsHandling(id, handleClose) {
     setLoading(true);
     closeDeleteDialog();
     send({
-      ...requests.cost.destroy,
+      ...requests.news.destroy,
       params: {id},
     })
       .then(() => {
