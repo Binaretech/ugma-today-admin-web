@@ -4,7 +4,7 @@ import appBaseUrl from '../../configs';
 import {useDispatch, useSelector} from 'react-redux';
 import {snackbarMessage} from '../../redux/actions/snackbarActions';
 import {trans} from '../../trans/trans';
-import {setLogin} from '../../redux/actions/sessionActions';
+import {removeSession} from '../../redux/actions/sessionActions';
 
 /**
  * @typedef {object} Params
@@ -78,7 +78,7 @@ export function useXhr(params) {
           return;
         }
         if (xhr.current.status === 401 && options.redirectUnauthorized) {
-          dispatch(setLogin());
+          dispatch(removeSession());
         }
 
         return reject({...response, status: xhr.current.status});
