@@ -8,6 +8,7 @@
 # testing
 /coverage
 **/*__snapshots__/
+**/*stories/
 
 # production
 /build
