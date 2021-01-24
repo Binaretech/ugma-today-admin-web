@@ -20,6 +20,7 @@ import {ListItemLink} from '../listItemLink/ListItemLink';
 import {useLogout, useWindowSize} from '../../utils/customHooks';
 import Link from '@material-ui/core/Link';
 import styles from './Scaffold.module.css';
+import Footer from '../footer';
 
 const drawerWidth = 240;
 const drawerSizeChange = 630;
@@ -120,74 +121,77 @@ export default function Scaffold(props) {
   }, [width]);
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            {trans('Components.scaffold.title')}
-          </Typography>
-        </Toolbar>
-        <div className={classes.linksContainer} id={styles.linksContainer}>
-          <Link component="button" onClick={() => logout()}>
-            {trans('Components.scaffold.logout')}
-          </Link>
-        </div>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant={drawerVariant}
-        anchor="left"
-        open={open}
-        onClose={() => setOpen(false)}
-        classes={{
-          paper: classes.drawerPaper,
-        }}>
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {drawerContent().map((content, index) => (
-            <React.Fragment key={index}>
-              <ListItemLink
-                key={content.title}
-                to={content.to}
-                action={content.action}>
-                <ListItemIcon>
-                  <content.icon.type />
-                </ListItemIcon>
-                <ListItemText primary={content.title} />
-              </ListItemLink>
-              <Divider />
-            </React.Fragment>
-          ))}
-        </List>
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}>
-        {props.children}
-      </main>
+    <div className={styles.container}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              {trans('Components.scaffold.title')}
+            </Typography>
+          </Toolbar>
+          <div className={classes.linksContainer} id={styles.linksContainer}>
+            <Link component="button" onClick={() => logout()}>
+              {trans('Components.scaffold.logout')}
+            </Link>
+          </div>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant={drawerVariant}
+          anchor="left"
+          open={open}
+          onClose={() => setOpen(false)}
+          classes={{
+            paper: classes.drawerPaper,
+          }}>
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'ltr' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            {drawerContent().map((content, index) => (
+              <React.Fragment key={index}>
+                <ListItemLink
+                  key={content.title}
+                  to={content.to}
+                  action={content.action}>
+                  <ListItemIcon>
+                    <content.icon.type />
+                  </ListItemIcon>
+                  <ListItemText primary={content.title} />
+                </ListItemLink>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </List>
+        </Drawer>
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: open,
+          })}>
+          {props.children}
+        </main>
+      </div>
+      <Footer />
     </div>
   );
 }
