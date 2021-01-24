@@ -36,6 +36,10 @@ const components = {
     comments: 'Comentarios',
     costs: 'Precios',
   },
+  Footer: {
+    madeWith: 'Hecho con',
+    byStudents: 'por estudiantes para estudiantes',
+  },
 };
 
 export default components;
