@@ -38,7 +38,7 @@ const components = {
   },
   Footer: {
     madeWith: 'Hecho con',
-    byStudents: 'por estudiantes para estudiantes',
+    byStudents: 'para estudiantes',
   },
 };
 
